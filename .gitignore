@@ -58,6 +58,3 @@ target/
 
 # Sublime
 *.sublime-workspace
-
-# Config
-config.py
