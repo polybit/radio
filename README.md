@@ -1,1 +1,1 @@
-# radio [![Build Status](https://travis-ci.org/polybit/radio.svg)](https://travis-ci.org/polybit/radio)
+# radio [![Build Status](https://travis-ci.org/polybit/radio.svg)](https://travis-ci.org/polybit/radio) [![Coverage Status](https://coveralls.io/repos/polybit/radio/badge.svg)](https://coveralls.io/r/polybit/radio)
