@@ -3,4 +3,4 @@ app = Flask(__name__)
 
 app.config.from_object('config.DevelopmentConfig')
 
-import radio.views
+import radio.views  # noqa
