@@ -55,3 +55,6 @@ target/
 
 # Virtualenv
 .env
+
+# Sublime
+*.sublime-workspace
