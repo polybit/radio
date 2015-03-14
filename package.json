@@ -11,7 +11,8 @@
   },
   "homepage": "https://github.com/polybit/radio",
   "devDependencies": {
+    "browser-sync": "^2.2.4",
     "gulp": "^3.8.11",
-    "gulp-react": "^3.0.1",
+    "gulp-react": "^3.0.1"
   }
 }

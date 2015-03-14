@@ -7,8 +7,3 @@ var HelloWorldBox = React.createClass({
     );
   }
 });
-
-React.render(
-  <HelloWorldBox />,
-  document.getElementById('content')
-);
