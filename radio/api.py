@@ -10,7 +10,7 @@ from radio.helpers import get_plugins, success_response
 @app.route('/api/status')
 def status():
     status = {
-        'uri': app.player.get_uri(),
+        'url': app.player.get_url(),
         'position': app.player.get_position(),
         'version': app.player.get_version(),
     }
@@ -22,8 +22,8 @@ def play():
     query = request.form['query']
     for plugin in get_plugins():
         if plugin.match(query):
-            uri = plugin.get_uri(query)
-            app.player.play(uri)
+            url = plugin.get_url(query)
+            app.player.play(url)
             return success_response(True)
     return success_response(False)
 

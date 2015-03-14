@@ -12,7 +12,7 @@ class ApiTest(BaseTestCase):
         self.assertEquals(
             status.json,
             {
-                'uri': None,
+                'url': None,
                 'position': None,
                 'version': None,
             },
@@ -34,7 +34,7 @@ class ApiTest(BaseTestCase):
         self.assertEquals(
             status.json,
             {
-                'uri': None,
+                'url': None,
                 'position': None,
                 'version': None,
             },
@@ -53,7 +53,7 @@ class ApiTest(BaseTestCase):
 
         # Status should be playing track
         status = self.client.get("/api/status")
-        assert status.json['uri'] is not None
+        assert status.json['url'] is not None
         self.assertGreaterEqual(status.json['position'], 0.0)
         assert status.json['version'] is not None
 

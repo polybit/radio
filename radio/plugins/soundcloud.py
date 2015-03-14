@@ -15,6 +15,6 @@ def match(query):
     return re.match(SOUNDCLOUD_REGEX, query) is not None
 
 
-def get_uri(url):
+def get_url(url):
     track = client.get('/resolve', url=url)
     return client.get(track.stream_url, allow_redirects=False).location
