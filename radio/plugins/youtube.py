@@ -15,7 +15,11 @@ def match(query):
     return re.match(YOUTUBE_REGEX, query) is not None
 
 
-def get_url(url):
+def get_track(url):
     video = pafy.new(url)
     best_audio_stream = video.getbestaudio()
-    return best_audio_stream.url_https
+    return {
+        'url': best_audio_stream.url_https,
+        'duration': video.length,
+        'meta': {},
+    }

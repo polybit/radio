@@ -11,7 +11,7 @@ from radio.helpers import get_plugins, success_response
 def status():
     if app.player.track is not None:
         status = {
-            'url': app.player.track.get_url(),
+            'track': app.player.get_track(),
             'position': app.player.get_position(),
             'version': app.player.get_version(),
         }
@@ -25,8 +25,8 @@ def play():
     query = request.form['query']
     for plugin in get_plugins():
         if plugin.match(query):
-            url = plugin.get_url(query)
-            app.player.play(url)
+            track = plugin.get_track(query)
+            app.player.play(track)
             return success_response(True)
     return success_response(False)
 
