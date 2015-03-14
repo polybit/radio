@@ -1,6 +1,9 @@
 class Config(object):
     DEBUG = False
     TESTING = False
+    PLUGINS = [
+        'youtube',
+    ]
 
 
 class ProductionConfig(Config):
