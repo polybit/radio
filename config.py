@@ -1,6 +1,10 @@
 class Config(object):
     DEBUG = False
     TESTING = False
+    PLUGINS = [
+        'soundcloud',
+        'youtube',
+    ]
 
 
 class ProductionConfig(Config):

@@ -1,11 +1,10 @@
 # -*- coding: utf-8 -*-
 from __future__ import unicode_literals
 
-import json
-
 from flask import jsonify, request
 
-from radio import app, youtube
+from radio import app
+from radio.helpers import get_plugins, success_response
 
 
 @app.route('/api/status')
@@ -21,16 +20,16 @@ def status():
 @app.route('/api/play', methods=['POST'])
 def play():
     query = request.form['query']
-    if youtube.match(query):
-        uri = youtube.get_uri(query)
-        app.player.play(uri)
-        return json.dumps({'success': True}), 200, {'ContentType': 'application/json'}
-    else:
-        return json.dumps({'success': False}), 200, {'ContentType': 'application/json'}
+    for plugin in get_plugins():
+        if plugin.match(query):
+            uri = plugin.get_uri(query)
+            app.player.play(uri)
+            return success_response(True)
+    return success_response(False)
 
 
 @app.route('/api/seek', methods=['POST'])
 def seek():
-    position = request.form['position']
+    position = float(request.form['position'])
     app.player.seek(position)
-    return json.dumps({'success': True}), 200, {'ContentType': 'application/json'}
+    return success_response(True)

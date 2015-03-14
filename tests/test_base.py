@@ -1,4 +1,6 @@
 # -*- coding: utf-8 -*-
+from __future__ import unicode_literals
+
 from flask.ext.testing import TestCase
 
 from radio import app
