@@ -31,6 +31,6 @@ def play():
 
 @app.route('/api/seek', methods=['POST'])
 def seek():
-    position = request.form['position']
+    position = float(request.form['position'])
     app.player.seek(position)
     return json.dumps({'success': True}), 200, {'ContentType': 'application/json'}

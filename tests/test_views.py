@@ -1,4 +1,6 @@
 # -*- coding: utf-8 -*-
+from __future__ import unicode_literals
+
 from flask import url_for
 
 from tests.test_base import BaseTestCase
