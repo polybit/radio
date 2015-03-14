@@ -1,0 +1,17 @@
+{
+  "name": "polybit-radio",
+  "version": "0.1.0",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/polybit/radio.git"
+  },
+  "author": "polybit",
+  "bugs": {
+    "url": "https://github.com/polybit/radio/issues"
+  },
+  "homepage": "https://github.com/polybit/radio",
+  "devDependencies": {
+    "gulp": "^3.8.11",
+    "gulp-react": "^3.0.1",
+  }
+}
