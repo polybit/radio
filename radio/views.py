@@ -3,7 +3,7 @@ from __future__ import unicode_literals
 
 from flask import render_template
 
-from radio import app
+from radio import app  # pylint:disable=cyclic-import
 
 
 @app.route('/')
