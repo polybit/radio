@@ -59,3 +59,10 @@ target/
 # Sublime
 *.sublime-workspace
 *.sublime-project
+
+# Ignore contents of dst (static) folder
+radio/static/*
+!radio/static/README*
+
+# Ignore node_modules for now
+node_modules
