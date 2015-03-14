@@ -9,12 +9,15 @@ from radio.helpers import get_plugins, success_response
 
 @app.route('/api/status')
 def status():
-    status = {
-        'url': app.player.get_url(),
-        'position': app.player.get_position(),
-        'version': app.player.get_version(),
-    }
-    return jsonify(status)
+    if app.player.track is not None:
+        status = {
+            'url': app.player.track.get_url(),
+            'position': app.player.get_position(),
+            'version': app.player.get_version(),
+        }
+        return jsonify(status)
+    else:
+        return jsonify({})
 
 
 @app.route('/api/play', methods=['POST'])

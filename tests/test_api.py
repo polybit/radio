@@ -9,14 +9,7 @@ class ApiTest(BaseTestCase):
     def test_default_state(self):
         # Status should initially be None
         status = self.client.get("/api/status")
-        self.assertEquals(
-            status.json,
-            {
-                'url': None,
-                'position': None,
-                'version': None,
-            },
-        )
+        self.assertEquals(status.json, {})
 
     def test_play_invalid_query(self):
         # Invalid query string
@@ -31,14 +24,7 @@ class ApiTest(BaseTestCase):
 
         # Status should still be None
         status = self.client.get("/api/status")
-        self.assertEquals(
-            status.json,
-            {
-                'url': None,
-                'position': None,
-                'version': None,
-            },
-        )
+        self.assertEquals(status.json, {})
 
     def test_play_youtube_query(self):
         # Valid YouTube query
