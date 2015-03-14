@@ -7,7 +7,8 @@ import re
 import soundcloud
 
 SOUNDCLOUD_REGEX = '^https?:\/\/(soundcloud.com|snd.sc)\/(.*)$'
-client = soundcloud.Client(client_id='')
+SOUNDCLOUD_CLIENT_ID = 'c40a9fb5016356c467bcde0f19e38c55'
+client = soundcloud.Client(client_id=SOUNDCLOUD_CLIENT_ID)
 
 
 def match(query):
