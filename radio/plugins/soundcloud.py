@@ -19,6 +19,7 @@ def get_track(url):
     track = client.get('/resolve', url=url)
     return {
         'url': client.get(track.stream_url, allow_redirects=False).location,
+        'type': 'audio/mp3',
         'duration': track.duration / 1000.0,
         'meta': {},
     }

@@ -20,6 +20,7 @@ def get_track(url):
     best_audio_stream = video.getbestaudio()
     return {
         'url': best_audio_stream.url_https,
+        'type': 'audio/mp4',
         'duration': video.length,
         'meta': {},
     }
