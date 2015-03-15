@@ -10,6 +10,10 @@ class Player(object):
     start_time = None
     version = None
     queue = []
+    hasher = None
+
+    def __init__(self):
+        self.hasher = hashlib.md5()
 
     def get_track(self):
         self.check_current_track()
@@ -27,11 +31,13 @@ class Player(object):
     def play(self, track):
         self.track = track
         self.start_time = time.time()
-        self.version = hashlib.md5().hexdigest()
+        self.hasher.update(str(self.start_time))
+        self.version = self.hasher.hexdigest()
 
     def seek(self, position):
         self.start_time = time.time() - position
-        self.version = hashlib.md5().hexdigest()
+        self.hasher.update(str(self.start_time))
+        self.version = self.hasher.hexdigest()
 
     def queue_track(self, track):
         self.check_current_track()
