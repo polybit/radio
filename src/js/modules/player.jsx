@@ -13,11 +13,15 @@ var Player = React.createClass({
                         src: data.track.url,
                         type: data.track.type,
                         version: data.version,
+                        currentTime: Math.floor(data.position),
+                        duration: Math.floor(data.track.duration),
                     })
+                    React.findDOMNode(this.refs.audioPlayer).currentTime = this.state.currentTime;
+                    React.findDOMNode(this.refs.audioPlayer).duration = this.state.duration;
                 }
+                React.findDOMNode(this.refs.audioPlayer).play();
             }.bind(this)
         });
-        React.findDOMNode(this.refs.audioPlayer).play();
     },
     componentDidMount: function() {
         this.load();
