@@ -31,12 +31,12 @@ class Player(object):
     def play(self, track):
         self.track = track
         self.start_time = time.time()
-        self.hasher.update(str(self.start_time))
+        self.hasher.update(str(self.start_time).encode('utf-8'))
         self.version = self.hasher.hexdigest()
 
     def seek(self, position):
         self.start_time = time.time() - position
-        self.hasher.update(str(self.start_time))
+        self.hasher.update(str(self.start_time).encode('utf-8'))
         self.version = self.hasher.hexdigest()
 
     def queue_track(self, track):
