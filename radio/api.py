@@ -42,8 +42,11 @@ def player_track():
 @app.route('/api/queue', methods=['GET', 'POST', 'PUT'])
 def queue():
     if request.method == 'GET':
-        # Get queue
-        return jsonify(queue=app.player.queue)
+        # Get queue with ids
+        queue = app.player.queue
+        for index, track in enumerate(app.player.queue):
+                track.update({"id": index})
+        return jsonify(queue=queue)
     elif request.method == 'POST':
         # Append to queue
         query = request.form['query']
