@@ -1,4 +1,5 @@
-#!/bin/sh
+#!/bin/bash
+set -ev
 if [ "$1" == "frontend" ]
 then
     echo "Running frontend tests..."
