@@ -8,7 +8,9 @@ var Player = React.createClass({
             dataType: 'json',
             success: function(data) {
                 console.log(data);
-                if (data.track && data.version && data.version != this.state.version){
+                if (data.version != this.state.version){
+                    data.track = data.track || {url: '', type: '', duration: 0};
+                    data.position = data.position || 0;
                     this.setState({
                         src: data.track.url,
                         type: data.track.type,
@@ -18,8 +20,9 @@ var Player = React.createClass({
                     })
                     React.findDOMNode(this.refs.audioPlayer).currentTime = this.state.currentTime;
                     React.findDOMNode(this.refs.audioPlayer).duration = this.state.duration;
+                    React.findDOMNode(this.refs.audioPlayer).play();
                 }
-                React.findDOMNode(this.refs.audioPlayer).play();
+
             }.bind(this)
         });
     },
