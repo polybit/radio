@@ -33,16 +33,16 @@ class Player(object):
         self.start_time = time.time() - position
         self.version = hashlib.md5().hexdigest()
 
-    def queue(self, track):
+    def queue_track(self, track):
         self.check_current_track()
         if self.track:
             self.queue.append(track)
         else:
-            self.track = track
+            self.play(track)
 
     def check_current_track(self):
-        if self.track and time.time() >= self.start_time + self.track['duration']:
+        if self.track is not None and time.time() >= self.start_time + self.track['duration']:
             if self.queue:
-                self.track = self.queue.pop(0)
+                self.play(self.queue.pop(0))
             else:
                 self.track = None

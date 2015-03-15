@@ -37,7 +37,7 @@ def queue():
     for plugin in get_plugins():
         if plugin.match(query):
             track = plugin.get_track(query)
-            app.player.queue(track)
+            app.player.queue_track(track)
             return success_response(True)
     return success_response(False)
 
