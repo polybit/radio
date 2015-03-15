@@ -24,5 +24,6 @@ def get_track(url):
         'meta': {
             'title': track.title,
             'artist': track.user['username'],
+            'link': track.permalink_url,
         },
     }
