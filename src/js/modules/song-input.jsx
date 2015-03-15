@@ -4,6 +4,7 @@ var SongInput = React.createClass({
         var url = React.findDOMNode(this.refs.url).value.trim();
         $.post('/api/queue', {query: url});
         this.props.onUrlSubmit()
+        React.findDOMNode(this.refs.url).value = '';
         return;
     },
     render: function() {
