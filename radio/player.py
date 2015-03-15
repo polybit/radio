@@ -34,6 +34,13 @@ class Player(object):
         self.hasher.update(str(self.start_time).encode('utf-8'))
         self.version = self.hasher.hexdigest()
 
+    def skip(self):
+        if self.queue:
+            self.play(self.queue.pop(0))
+        else:
+            self.track = None
+            self.start_time = None
+
     def seek(self, position):
         self.start_time = time.time() - position
         self.hasher.update(str(self.start_time).encode('utf-8'))
@@ -52,3 +59,4 @@ class Player(object):
                 self.play(self.queue.pop(0))
             else:
                 self.track = None
+                self.start_time = None

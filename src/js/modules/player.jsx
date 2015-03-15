@@ -4,7 +4,7 @@ var Player = React.createClass({
     },
     load: function() {
         $.ajax({
-            url: '/api/status',
+            url: '/api/player',
             dataType: 'json',
             success: function(data) {
                 console.log(data);

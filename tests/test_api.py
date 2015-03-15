@@ -8,13 +8,20 @@ class ApiTest(BaseTestCase):
 
     def test_default_state(self):
         # Status should initially be None
-        status = self.client.get("/api/status")
-        self.assertEquals(status.json, {})
+        status = self.client.get("/api/player")
+        self.assertEquals(
+            status.json,
+            {
+                "position": None,
+                "track": None,
+                "version": None,
+            }
+        )
 
-    def test_play_invalid_query(self):
+    def test_queue_invalid_query(self):
         # Invalid query string
         response = self.client.post(
-            "/api/play",
+            "/api/queue",
             data={'query': 'example.com'},
         )
         self.assertEquals(
@@ -23,13 +30,20 @@ class ApiTest(BaseTestCase):
         )
 
         # Status should still be None
-        status = self.client.get("/api/status")
-        self.assertEquals(status.json, {})
+        status = self.client.get("/api/player")
+        self.assertEquals(
+            status.json,
+            {
+                "position": None,
+                "track": None,
+                "version": None,
+            }
+        )
 
-    def test_play_youtube_query(self):
+    def test_queue_youtube_query(self):
         # Valid YouTube query
         response = self.client.post(
-            "/api/play",
+            "/api/queue",
             data={'query': 'https://soundcloud.com/alt-j/something-good-alt-j'},
         )
         self.assertEquals(
@@ -38,18 +52,7 @@ class ApiTest(BaseTestCase):
         )
 
         # Status should be playing track
-        status = self.client.get("/api/status")
+        status = self.client.get("/api/player")
         assert status.json['track']['url'] is not None
         self.assertGreaterEqual(status.json['position'], 0.0)
         assert status.json['version'] is not None
-
-    def test_seek(self):
-        # Seek position to 40s
-        response = self.client.post(
-            "/api/seek",
-            data={'position': 40.0},
-        )
-        self.assertEquals(
-            response.json,
-            {'success': True},
-        )
