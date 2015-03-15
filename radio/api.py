@@ -1,6 +1,8 @@
 # -*- coding: utf-8 -*-
 from __future__ import unicode_literals
 
+import json
+
 from flask import jsonify, request
 
 from radio import app
@@ -54,7 +56,7 @@ def queue():
     elif request.method == 'PUT':
         # Modify queue
         try:
-            app.player.queue = request.get_json()
+            app.player.queue = json.loads(request.data)['queue']
             return success_response(True)
         except:
             return success_response(False)
