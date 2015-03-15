@@ -25,5 +25,6 @@ def get_track(url):
             'title': track.title,
             'artist': track.user['username'],
             'link': track.permalink_url,
+            'artwork': track.artwork_url,
         },
     }
