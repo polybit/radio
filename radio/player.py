@@ -41,7 +41,7 @@ class Player(object):
             self.track = track
 
     def check_current_track(self):
-        if time.time() >= self.start_time + self.track['duration']:
+        if self.track and time.time() >= self.start_time + self.track['duration']:
             if self.queue:
                 self.track = self.queue.pop(0)
             else:
