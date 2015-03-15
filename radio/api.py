@@ -31,6 +31,17 @@ def play():
     return success_response(False)
 
 
+@app.route('/api/queue', methods=['POST'])
+def queue():
+    query = request.form['query']
+    for plugin in get_plugins():
+        if plugin.match(query):
+            track = plugin.get_track(query)
+            app.player.queue(track)
+            return success_response(True)
+    return success_response(False)
+
+
 @app.route('/api/seek', methods=['POST'])
 def seek():
     position = float(request.form['position'])

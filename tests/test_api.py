@@ -30,7 +30,7 @@ class ApiTest(BaseTestCase):
         # Valid YouTube query
         response = self.client.post(
             "/api/play",
-            data={'query': 'https://www.youtube.com/watch?v=L0MK7qz13bU'},
+            data={'query': 'https://soundcloud.com/alt-j/something-good-alt-j'},
         )
         self.assertEquals(
             response.json,
@@ -53,7 +53,3 @@ class ApiTest(BaseTestCase):
             response.json,
             {'success': True},
         )
-
-        # Check position has changed
-        status = self.client.get("/api/status")
-        self.assertGreaterEqual(status.json['position'], 40.0)
