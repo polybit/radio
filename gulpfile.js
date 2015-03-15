@@ -5,6 +5,11 @@ var browserSync = require('browser-sync');
 var srcDir = 'src/';
 var dstDir = 'radio/static/';
 
+function swallowError(e) {
+    console.error(e.message + '\n  in ' + e.fileName);
+    this.emit('end');
+}
+
 gulp.task('browser-sync', function() {
     browserSync({
         proxy: "localhost:5000"
@@ -14,9 +19,7 @@ gulp.task('browser-sync', function() {
 gulp.task('compile-jsx', function() {
   return gulp.src([srcDir + '**/*.jsx', srcDir + '**/*.js'])
         .pipe(react())
-        .on('error', function(e) {
-            console.error(e.message + '\n  in ' + e.fileName);
-        })
+        .on('error', swallowError)
         .pipe(gulp.dest(dstDir))
         .pipe(browserSync.reload({stream: true}));
 });

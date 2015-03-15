@@ -1,4 +1,4 @@
 React.render(
-  <HelloWorldBox />,
-  document.getElementById('content')
+  <Player pollInterval={1000}/>,
+  document.getElementById('player')
 );
