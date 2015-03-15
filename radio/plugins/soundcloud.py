@@ -21,5 +21,8 @@ def get_track(url):
         'url': client.get(track.stream_url, allow_redirects=False).location,
         'type': 'audio/mp3',
         'duration': track.duration / 1000.0,
-        'meta': {},
+        'meta': {
+            'title': track.title,
+            'artist': track.user['username'],
+        },
     }
