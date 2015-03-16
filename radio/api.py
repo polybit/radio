@@ -26,7 +26,7 @@ def player_track():
         return jsonify(app.player.get_track())
     elif request.method == 'POST':
         # Skip track (to next in queue)
-        app.player.skip()
+        app.player.skip_track()
         return success_response(True)
     elif request.method == 'PUT':
         # Change track immediately
@@ -34,7 +34,7 @@ def player_track():
         for plugin in get_plugins():
             if plugin.match(query):
                 track = plugin.get_track(query)
-                app.player.play(track)
+                app.player.play_track(track)
                 return success_response(True)
         return success_response(False)
 

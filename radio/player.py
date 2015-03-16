@@ -28,20 +28,20 @@ class Player(object):
     def get_version(self):
         return self.version
 
-    def play(self, track):
+    def play_track(self, track):
         self.track = track
         self.start_time = time.time()
         self.hasher.update(str(self.start_time).encode('utf-8'))
         self.version = self.hasher.hexdigest()
 
-    def skip(self):
+    def skip_track(self):
         if self.queue:
-            self.play(self.queue.pop(0))
+            self.play_track(self.queue.pop(0))
         else:
             self.track = None
             self.start_time = None
 
-    def seek(self, position):
+    def seek_track(self, position):
         self.start_time = time.time() - position
         self.hasher.update(str(self.start_time).encode('utf-8'))
         self.version = self.hasher.hexdigest()
@@ -51,12 +51,12 @@ class Player(object):
         if self.track:
             self.queue.append(track)
         else:
-            self.play(track)
+            self.play_track(track)
 
     def check_current_track(self):
         if self.track is not None and time.time() >= self.start_time + self.track['duration']:
             if self.queue:
-                self.play(self.queue.pop(0))
+                self.play_track(self.queue.pop(0))
             else:
                 self.track = None
                 self.start_time = None
