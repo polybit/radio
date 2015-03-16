@@ -33,7 +33,6 @@ var Stream = React.createClass({
                         artist={item.meta.artist}
                         link={item.meta.link}
                         artwork={item.meta.artwork}
-                        color={item.meta.colors[0]['value']}
                     />
                 );
             });
