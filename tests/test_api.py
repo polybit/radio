@@ -54,5 +54,5 @@ class ApiTest(BaseTestCase):
         # Status should be playing track
         status = self.client.get("/api/player")
         assert status.json['track']['url'] is not None
-        self.assertGreaterEqual(status.json['position'], 0.0)
+        self.assertGreaterEqual(status.json['position'], 0)
         assert status.json['version'] is not None

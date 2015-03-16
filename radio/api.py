@@ -12,9 +12,9 @@ from radio.helpers import get_plugins, success_response
 @app.route('/api/player')
 def player():
     status = {
-        'track': app.player.get_track(),
-        'position': app.player.get_position(),
-        'version': app.player.get_version(),
+        'track': app.player.track,
+        'position': app.player.position,
+        'version': app.player.version,
     }
     return jsonify(status)
 
@@ -23,10 +23,10 @@ def player():
 def player_track():
     if request.method == 'GET':
         # Get track
-        return jsonify(app.player.get_track())
+        return jsonify(app.player.track)
     elif request.method == 'POST':
         # Skip track (to next in queue)
-        app.player.skip()
+        app.player.skip_track()
         return success_response(True)
     elif request.method == 'PUT':
         # Change track immediately
@@ -34,7 +34,7 @@ def player_track():
         for plugin in get_plugins():
             if plugin.match(query):
                 track = plugin.get_track(query)
-                app.player.play(track)
+                app.player.track = track
                 return success_response(True)
         return success_response(False)
 

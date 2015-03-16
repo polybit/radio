@@ -4,59 +4,74 @@ from __future__ import unicode_literals
 import hashlib
 import time
 
+hasher = hashlib.md5()
+current_time = lambda: int(round(time.time() * 1000))
+
 
 class Player(object):
-    track = None
-    start_time = None
-    version = None
-    queue = []
-    hasher = None
+    _version = None
+    _track = None
+    _start_time = None
+    _queue = []
 
-    def __init__(self):
-        self.hasher = hashlib.md5()
+    @property
+    def version(self):
+        return self._version
 
-    def get_track(self):
-        self.check_current_track()
-        return self.track
+    @property
+    def track(self):
+        self._check_update()
+        return self._track
 
-    def get_position(self):
-        if self.start_time:
-            return time.time() - self.start_time
+    @track.setter
+    def track(self, value):
+        self._track = value
+        self._start_time = current_time()
+        self._update_version()
+
+    @property
+    def position(self):
+        if self._start_time:
+            return current_time() - self._start_time
         else:
             return None
 
-    def get_version(self):
-        return self.version
+    @position.setter
+    def position(self, value):
+        self._start_time = current_time() - value
+        self._update_version()
 
-    def play(self, track):
-        self.track = track
-        self.start_time = time.time()
-        self.hasher.update(str(self.start_time).encode('utf-8'))
-        self.version = self.hasher.hexdigest()
-
-    def skip(self):
-        if self.queue:
-            self.play(self.queue.pop(0))
-        else:
-            self.track = None
-            self.start_time = None
-
-    def seek(self, position):
-        self.start_time = time.time() - position
-        self.hasher.update(str(self.start_time).encode('utf-8'))
-        self.version = self.hasher.hexdigest()
+    @property
+    def queue(self):
+        return self._queue
 
     def queue_track(self, track):
-        self.check_current_track()
+        self._check_update()
         if self.track:
-            self.queue.append(track)
+            self._queue.append(track)
         else:
-            self.play(track)
+            self.track = track
 
-    def check_current_track(self):
-        if self.track is not None and time.time() >= self.start_time + self.track['duration']:
+    def skip_track(self):
+        if self._queue:
+            self.track = self.queue.pop(0)
+        else:
+            self.clear()
+
+    def clear(self):
+        self._queue = []
+        self._track = None
+        self._start_time = None
+        self._update_version()
+
+    def _check_update(self):
+        # If track has ended, play next track from queue or finish
+        if self._track is not None and current_time() >= self._start_time + self._track['duration']:
             if self.queue:
-                self.play(self.queue.pop(0))
+                self._track = self.queue.pop(0)
             else:
-                self.track = None
-                self.start_time = None
+                self.clear()
+
+    def _update_version(self):
+        hasher.update(str(current_time()).encode('utf-8'))
+        self._version = hasher.hexdigest()
