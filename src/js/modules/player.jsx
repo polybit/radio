@@ -48,7 +48,6 @@ var Player = React.createClass({
                 artist={this.state.track.meta.artist}
                 link={this.state.track.meta.link}
                 artwork={this.state.track.meta.artwork}
-                color={this.state.track.meta.colors[0]['value']}
                 ref="playerWrapper"
             >
                 {player}
