@@ -4,8 +4,6 @@ from __future__ import absolute_import
 
 import re
 
-from colorific import palette
-import requests
 import soundcloud
 
 SOUNDCLOUD_REGEX = '^https?:\/\/(soundcloud.com|snd.sc)\/(.*)$'
@@ -21,11 +19,6 @@ def get_track(url):
     track = client.get('/resolve', url=url)
     artwork_url = track.artwork_url if track.artwork_url else track.user['avatar_url']
 
-    # TODO: make this less crap
-    f = open('tmp.jpg', 'wb')
-    f.write(requests.get(artwork_url.replace('https', 'http')).content)
-    f.close()
-
     return {
         'url': client.get(track.stream_url, allow_redirects=False).location,
         'type': 'audio/mp3',
@@ -35,6 +28,5 @@ def get_track(url):
             'artist': track.user['username'],
             'link': track.permalink_url,
             'artwork': artwork_url,
-            'colors': palette.extract_colors('tmp.jpg', min_prominence=0.1).colors,
         },
     }

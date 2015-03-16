@@ -1,14 +1,27 @@
 var StreamItem = React.createClass({
+    getInitialState: function () {
+        return {
+            color: [0, 0, 0]
+        };
+    },
+    componentDidMount: function () {
+        var art = React.findDOMNode(this.refs.art);
+        $(art).on('load', (function() {
+            var colorThief = new ColorThief();
+            var color = colorThief.getColor(art);
+            this.setState({color: color});
+        }).bind(this));
+    },
     render: function() {
         var itemStyle = {
-            borderLeftColor: 'rgb(' + this.props.color.join(',') + ')'
+            borderLeftColor: 'rgb(' + this.state.color.join(',') + ')'
         }
         return (
             <li className="stream-item list-group-item" style={itemStyle}>
                 <div className="media">
                     <div className="media-left">
                         <a href={this.props.link} target="_blank">
-                            <img className="media-object" src={this.props.artwork} alt="" />
+                            <img ref="art" className="media-object" src={this.props.artwork} alt="" crossOrigin="anonymous" width="100" height="100" />
                         </a>
                     </div>
                     <div className="media-body">
