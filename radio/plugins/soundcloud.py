@@ -25,6 +25,6 @@ def get_track(url):
             'title': track.title,
             'artist': track.user['username'],
             'link': track.permalink_url,
-            'artwork': track.artwork_url,
+            'artwork': track.artwork_url if track.artwork_url else track.user['avatar_url'],
         },
     }
