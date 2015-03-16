@@ -53,10 +53,7 @@ def player_track():
 def queue():
     if request.method == 'GET':
         # Get queue
-        queue = app.player.queue
-        for index, track in enumerate(app.player.queue):
-                track.update({"id": index})
-        return jsonify(queue=queue)
+        return jsonify(queue=app.player.queue)
     elif request.method == 'POST':
         # Append to queue
         track = query(request.form['query'])
