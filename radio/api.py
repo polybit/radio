@@ -6,7 +6,7 @@ import json
 from flask import jsonify, request
 
 from radio import app
-from radio.helpers import get_plugins, success_response
+from radio.helpers import success_response
 
 
 @app.route('/api/player')
@@ -31,7 +31,7 @@ def player_track():
     elif request.method == 'PUT':
         # Change track immediately
         query = request.form['query']
-        for plugin in get_plugins():
+        for plugin in app.plugins:
             if plugin.match(query):
                 track = plugin.get_track(query)
                 app.player.track = track
@@ -50,7 +50,7 @@ def queue():
     elif request.method == 'POST':
         # Append to queue
         query = request.form['query']
-        for plugin in get_plugins():
+        for plugin in app.plugins:
             if plugin.match(query):
                 track = plugin.get_track(query)
                 app.player.queue_track(track)
