@@ -45,6 +45,10 @@ class Player(object):
     def queue(self):
         return self._queue
 
+    @queue.setter
+    def queue(self, value):
+        self._queue = value
+
     def queue_track(self, track):
         self._check_update()
         if self.track:
