@@ -14,8 +14,8 @@ var Player = React.createClass({
                         src: data.track.url,
                         type: data.track.type,
                         version: data.version,
-                        currentTime: Math.floor(data.position),
-                        duration: Math.floor(data.track.duration),
+                        currentTime: Math.floor(data.position / 1000.0),
+                        duration: Math.floor(data.track.duration / 1000.0),
                     })
                     var domAudio = React.findDOMNode(this.refs.playerWrapper).querySelector('audio');
                     domAudio.currentTime = this.state.currentTime;
