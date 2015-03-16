@@ -1,6 +1,7 @@
 var gulp = require('gulp');
 var react = require('gulp-react');
 var browserSync = require('browser-sync');
+var sass = require('gulp-sass');
 
 var srcDir = 'src/';
 var dstDir = 'radio/static/';
@@ -24,8 +25,16 @@ gulp.task('compile-jsx', function() {
         .pipe(browserSync.reload({stream: true}));
 });
 
-gulp.task('watch', ['compile-jsx', 'move', 'browser-sync'], function() {
+gulp.task('sass', function () {
+    gulp.src(srcDir + 'scss/**/*.scss')
+        .pipe(sass())
+        .pipe(gulp.dest(dstDir + 'css/'))
+        .pipe(browserSync.reload({stream: true}));
+});
+
+gulp.task('watch', ['compile-jsx', 'sass', 'move', 'browser-sync'], function() {
     gulp.watch([srcDir + '**/*.jsx', srcDir + '**/*.js'], ['compile-jsx']);
+    gulp.watch([srcDir + 'scss/**/*.scss'], ['sass']);
     gulp.watch([srcDir + '**/*.html'], ['move']);
 });
 
@@ -36,5 +45,5 @@ gulp.task('move', function() {
           .pipe(browserSync.reload({stream: true}));
 });
 
-gulp.task('default', ['compile-jsx', 'move']);
+gulp.task('default', ['compile-jsx', 'sass', 'move']);
 

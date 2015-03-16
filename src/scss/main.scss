@@ -1,0 +1,26 @@
+@import "bootstrap";
+
+
+body {
+    background-color: #fafafa;
+}
+
+.section {
+    margin-bottom: 20px;
+}
+
+.stream-item {
+    background-color: #fff;
+    border-left-width: 5px;
+
+    img {
+        border: 1px solid #e7e7e7;
+    }
+
+    audio {
+        display: block;
+        margin-top: 27px;
+    }
+}
+
+
