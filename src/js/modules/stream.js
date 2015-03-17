@@ -1,4 +1,6 @@
 var StreamItem = require('./stream-item');
+var React = require('react');
+var $ = require('jquery');
 
 
 module.exports = React.createClass({

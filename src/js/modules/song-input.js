@@ -1,3 +1,7 @@
+var React = require('react');
+var $ = require('jquery');
+
+
 var SongInput = React.createClass({
     handleSubmit: function(e) {
         e.preventDefault();
