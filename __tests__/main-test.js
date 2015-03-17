@@ -12,5 +12,8 @@ describe('main', function() {
 
         // init is called automatically from main on require
         require('../src/js/main');
+
+        // Turn automock back on
+        jest.autoMockOn();
     });
 });

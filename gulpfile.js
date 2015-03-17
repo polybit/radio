@@ -2,11 +2,9 @@ var gulp = require('gulp');
 var browserSync = require('browser-sync');
 var sass = require('gulp-sass');
 var browserify = require('browserify');
-var uglify = require('gulp-uglify');
 var source = require('vinyl-source-stream');
 var watchify = require('watchify');
 var reactify = require('reactify');
-var streamify = require('gulp-streamify');
 
 
 var path = {
