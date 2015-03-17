@@ -36,7 +36,7 @@ gulp.task('sass', function () {
         .pipe(browserSync.reload({stream: true}));
 });
 
-gulp.task('watch', ['browser-sync'], function() {
+gulp.task('watch', ['sass', 'copy', 'build', 'browser-sync'], function() {
     gulp.watch(path.HTML, ['copy']);
     gulp.watch(path.SCSS, ['sass']);
 
@@ -60,5 +60,15 @@ gulp.task('watch', ['browser-sync'], function() {
     .pipe(browserSync.reload({stream: true}));
 });
 
-gulp.task('default', ['sass', 'copy', 'watch']);
+gulp.task('build', function(){
+    browserify({
+        entries: [path.ENTRY_POINT],
+        transform: [reactify]
+    })
+    .bundle()
+    .pipe(source(path.OUT))
+    .pipe(gulp.dest(path.DEST_JS));
+});
+
+gulp.task('default', ['sass', 'copy', 'build']);
 
