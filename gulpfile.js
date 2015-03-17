@@ -1,15 +1,23 @@
 var gulp = require('gulp');
-var react = require('gulp-react');
 var browserSync = require('browser-sync');
 var sass = require('gulp-sass');
+var browserify = require('browserify');
+var uglify = require('gulp-uglify');
+var source = require('vinyl-source-stream');
+var watchify = require('watchify');
+var reactify = require('reactify');
+var streamify = require('gulp-streamify');
 
-var srcDir = 'src/';
-var dstDir = 'radio/static/';
 
-function swallowError(e) {
-    console.error(e.message + '\n  in ' + e.fileName);
-    this.emit('end');
-}
+var path = {
+  SCSS: './src/scss/**/*.scss',
+  HTML: './src/index.html',
+  OUT: 'build.js',
+  DEST_HTML: './radio/static',
+  DEST_JS: './radio/static/js',
+  DEST_CSS: './radio/static/css',
+  ENTRY_POINT: './src/js/main.js'
+};
 
 gulp.task('browser-sync', function() {
     browserSync({
@@ -17,33 +25,42 @@ gulp.task('browser-sync', function() {
     });
 });
 
-gulp.task('compile-jsx', function() {
-  return gulp.src([srcDir + '**/*.jsx', srcDir + '**/*.js'])
-        .pipe(react())
-        .on('error', swallowError)
-        .pipe(gulp.dest(dstDir))
+gulp.task('copy', function(){
+    gulp.src(path.HTML)
+        .pipe(gulp.dest(path.DEST_HTML))
         .pipe(browserSync.reload({stream: true}));
 });
 
 gulp.task('sass', function () {
-    gulp.src(srcDir + 'scss/**/*.scss')
+    gulp.src(path.SCSS)
         .pipe(sass())
-        .pipe(gulp.dest(dstDir + 'css/'))
+        .pipe(gulp.dest(path.DEST_CSS))
         .pipe(browserSync.reload({stream: true}));
 });
 
-gulp.task('watch', ['compile-jsx', 'sass', 'move', 'browser-sync'], function() {
-    gulp.watch([srcDir + '**/*.jsx', srcDir + '**/*.js'], ['compile-jsx']);
-    gulp.watch([srcDir + 'scss/**/*.scss'], ['sass']);
-    gulp.watch([srcDir + '**/*.html'], ['move']);
+gulp.task('watch', ['browser-sync'], function() {
+    gulp.watch(path.HTML, ['copy']);
+    gulp.watch(path.SCSS, ['sass']);
+
+    var watcher  = watchify(browserify({
+        entries: [path.ENTRY_POINT],
+        transform: [reactify],
+        debug: true,
+        cache: {},
+        packageCache: {},
+        fullPaths: true
+    }));
+
+    return watcher.on('update', function () {
+        watcher.bundle()
+               .pipe(source(path.OUT))
+               .pipe(gulp.dest(path.DEST_JS));
+    })
+    .bundle()
+    .pipe(source(path.OUT))
+    .pipe(gulp.dest(path.DEST_JS))
+    .pipe(browserSync.reload({stream: true}));
 });
 
-// Move everything non-jsx from src -> static
-gulp.task('move', function() {
-    return gulp.src([srcDir + '**/*.html'])
-          .pipe(gulp.dest(dstDir))
-          .pipe(browserSync.reload({stream: true}));
-});
-
-gulp.task('default', ['compile-jsx', 'sass', 'move']);
+gulp.task('default', ['sass', 'copy', 'watch']);
 

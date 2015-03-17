@@ -1,4 +1,7 @@
-var Player = React.createClass({
+var StreamItem = require('./stream-item');
+
+
+module.exports = React.createClass({
     getInitialState: function () {
         return {}
     },
@@ -7,22 +10,19 @@ var Player = React.createClass({
             url: '/api/player',
             dataType: 'json',
             success: function(data) {
-                if (data.track && data.version != this.state.version){
-                    console.log(data.track);
+                if (data.version != this.state.version){
                     this.setState({
                         track: data.track,
-                        src: data.track.url,
-                        type: data.track.type,
                         version: data.version,
                         currentTime: Math.floor(data.position / 1000.0),
-                        duration: Math.floor(data.track.duration / 1000.0),
-                    })
-                    var domAudio = React.findDOMNode(this.refs.playerWrapper).querySelector('audio');
-                    domAudio.currentTime = this.state.currentTime;
-                    domAudio.duration = this.state.duration;
-                    domAudio.play();
-                }
+                    });
 
+                    if (this.refs.playerWrapper){
+                        var domAudio = React.findDOMNode(this.refs.playerWrapper).querySelector('audio');
+                        domAudio.currentTime = this.state.currentTime;
+                        domAudio.play();
+                    }
+                }
             }.bind(this)
         });
     },
@@ -36,8 +36,8 @@ var Player = React.createClass({
     render: function() {
         if (this.state.track) {
             var player = (
-                <audio src={this.state.src} autoPlay controls>
-                    <source src={this.state.src} type={this.state.type} />
+                <audio src={this.state.track.url} autoPlay controls>
+                    <source src={this.state.track.url} type={this.state.track.type} />
                     Your browser does not support the audio element.
                 </audio>
             )
@@ -52,6 +52,8 @@ var Player = React.createClass({
             >
                 {player}
             </StreamItem>
+        } else {
+            var playerWrapper = '';
         }
 
         return (

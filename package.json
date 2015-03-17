@@ -12,8 +12,12 @@
   "homepage": "https://github.com/polybit/radio",
   "devDependencies": {
     "browser-sync": "^2.2.4",
+    "browserify": "^9.0.3",
     "gulp": "^3.8.11",
-    "gulp-react": "^3.0.1",
-    "gulp-sass": "^1.3.3"
+    "gulp-sass": "^1.3.3",
+    "gulp-streamify": "0.0.5",
+    "reactify": "^1.1.0",
+    "vinyl-source-stream": "^1.1.0",
+    "watchify": "^2.4.0"
   }
 }

@@ -66,3 +66,6 @@ radio/static/*
 
 # Ignore node_modules for now
 node_modules
+
+# Don't ignore js/lib
+!*/js/lib

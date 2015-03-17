@@ -22,3 +22,5 @@ var SongInput = React.createClass({
         );
     }
 });
+
+module.exports = SongInput;

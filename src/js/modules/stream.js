@@ -1,4 +1,7 @@
-var Stream = React.createClass({
+var StreamItem = require('./stream-item');
+
+
+module.exports = React.createClass({
     getInitialState: function () {
         return {queue: []};
     },

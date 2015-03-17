@@ -1,4 +1,7 @@
-var StreamItem = React.createClass({
+var ColorThief = require('../lib/color-thief');
+
+
+module.exports = React.createClass({
     getInitialState: function () {
         return {
             color: [0, 0, 0]
