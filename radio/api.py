@@ -6,7 +6,15 @@ import json
 from flask import jsonify, request
 
 from radio import app
-from radio.helpers import get_plugins, success_response
+from radio.helpers import success_response
+
+
+def query(query):
+    for plugin in app.plugins:
+        if plugin.match(query):
+            track = plugin.get_track(query)
+            return track
+    return None
 
 
 @app.route('/api/player')
@@ -22,40 +30,38 @@ def player():
 @app.route('/api/player/track', methods=['GET', 'POST', 'PUT'])
 def player_track():
     if request.method == 'GET':
-        # Get track
-        return jsonify(app.player.track)
+        # Get current track
+        if app.player.track:
+            return jsonify(app.player.track)
+        else:
+            return jsonify({})
     elif request.method == 'POST':
-        # Skip track (to next in queue)
+        # Skip track
         app.player.skip_track()
         return success_response(True)
     elif request.method == 'PUT':
         # Change track immediately
-        query = request.form['query']
-        for plugin in get_plugins():
-            if plugin.match(query):
-                track = plugin.get_track(query)
-                app.player.track = track
-                return success_response(True)
-        return success_response(False)
+        track = query(request.form['query'])
+        if track:
+            app.player.track = track
+            return success_response(True)
+        else:
+            return success_response(False)
 
 
 @app.route('/api/queue', methods=['GET', 'POST', 'PUT'])
 def queue():
     if request.method == 'GET':
-        # Get queue with ids
-        queue = app.player.queue
-        for index, track in enumerate(app.player.queue):
-                track.update({"id": index})
-        return jsonify(queue=queue)
+        # Get queue
+        return jsonify(queue=app.player.queue)
     elif request.method == 'POST':
         # Append to queue
-        query = request.form['query']
-        for plugin in get_plugins():
-            if plugin.match(query):
-                track = plugin.get_track(query)
-                app.player.queue_track(track)
-                return success_response(True)
-        return success_response(False)
+        track = query(request.form['query'])
+        if track:
+            app.player.queue_track(track)
+            return success_response(True)
+        else:
+            return success_response(False)
     elif request.method == 'PUT':
         # Modify queue
         try:
