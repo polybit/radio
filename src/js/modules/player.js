@@ -5,7 +5,7 @@ var $ = require('jquery');
 
 module.exports = React.createClass({
     getInitialState: function () {
-        return {}
+        return {};
     },
     load: function() {
         $.ajax({

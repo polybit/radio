@@ -20,7 +20,7 @@ module.exports = React.createClass({
     render: function() {
         var itemStyle = {
             borderLeftColor: 'rgb(' + this.state.color.join(',') + ')'
-        }
+        };
         return (
             <li className="stream-item list-group-item" style={itemStyle}>
                 <div className="media">
