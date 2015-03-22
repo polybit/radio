@@ -78,8 +78,8 @@ def player_volume():
         return success_response(True)
 
 
-@app.route('/api/queue', methods=['GET', 'POST', 'PUT'])
-def queue():
+@app.route('/api/player/queue', methods=['GET', 'POST', 'PUT'])
+def player_queue():
     if request.method == 'GET':
         # Get queue
         return jsonify(queue=app.player.queue)

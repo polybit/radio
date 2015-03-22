@@ -22,25 +22,25 @@ class ApiTest(BaseTestCase):
         self.assertIsNone(track)
 
     def test_get_queue(self):
-        response = self.client.get("/api/queue")
+        response = self.client.get("/api/player/queue")
         self.assertEquals(response.json, {'queue': []})
 
         response = self.client.post(
-            "/api/queue",
+            "/api/player/queue",
             data={'query': 'https://soundcloud.com/alt-j/something-good-alt-j'},
         )
 
         response = self.client.post(
-            "/api/queue",
+            "/api/player/queue",
             data={'query': 'https://soundcloud.com/alt-j/something-good-alt-j'},
         )
 
-        response = self.client.get("/api/queue")
+        response = self.client.get("/api/player/queue")
         self.assertIsNotNone(response.json['queue'])
 
     def test_invalid_query_request(self):
         response = self.client.post(
-            "/api/queue",
+            "/api/player/queue",
             data={'query': 'example.com'},
         )
         self.assertEquals(response.json, {'success': False})
@@ -50,7 +50,7 @@ class ApiTest(BaseTestCase):
 
     def test_success_query(self):
         response = self.client.post(
-            "/api/queue",
+            "/api/player/queue",
             data={'query': 'https://soundcloud.com/alt-j/something-good-alt-j'},
         )
         self.assertEquals(response.json, {'success': True})
@@ -77,10 +77,10 @@ class ApiTest(BaseTestCase):
     #             }
     #         ]
     #     }
-    #     response = self.client.put("/api/queue", data=data)
+    #     response = self.client.put("/api/player/queue", data=data)
     #     self.assertEquals(response.json, {'success': True})
 
-    #     response = self.client.get("/api/queue")
+    #     response = self.client.get("/api/player/queue")
     #     self.assertEquals(response.json, {'queue': queue})
 
     def test_get_track(self):
@@ -88,7 +88,7 @@ class ApiTest(BaseTestCase):
         self.assertEquals(response.json, {})
 
         response = self.client.post(
-            "/api/queue",
+            "/api/player/queue",
             data={'query': 'https://soundcloud.com/alt-j/something-good-alt-j'},
         )
         self.assertEquals(response.json, {'success': True})

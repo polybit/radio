@@ -9,7 +9,7 @@ module.exports = React.createClass({
     },
     load: function() {
         $.ajax({
-            url: '/api/queue',
+            url: '/api/player/queue',
             dataType: 'json',
             success: function(data) {
                 this.setState({
