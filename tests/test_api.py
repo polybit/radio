@@ -5,12 +5,13 @@ from flask import jsonify
 
 from tests.base import BaseTestCase
 from radio import api, app
+from radio.player import Player
 
 
 class ApiTest(BaseTestCase):
 
     def setUp(self):
-        self.app.player.clear()
+        self.app.player = Player()
 
     def test_default_state(self):
         state = self.client.get("/api/player")
@@ -122,3 +123,16 @@ class ApiTest(BaseTestCase):
         # State should be back to no track playing
         state = self.client.get("/api/player")
         self.assertIsNone(state.json['track'])
+
+    def test_pause(self):
+        response = self.client.get("/api/player/paused")
+        self.assertEquals(response.json, {'paused': False})
+
+        response = self.client.post(
+            "/api/player/paused",
+            data={'paused': True},
+        )
+        self.assertEquals(response.json, {'success': True})
+
+        response = self.client.get("/api/player/paused")
+        self.assertEquals(response.json, {'paused': True})

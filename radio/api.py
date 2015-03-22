@@ -49,6 +49,15 @@ def player_track():
             return success_response(False)
 
 
+@app.route('/api/player/paused', methods=['GET', 'POST'])
+def player_paused():
+    if request.method == 'GET':
+        return jsonify(paused=app.player.paused)
+    elif request.method == 'POST':
+        app.player.paused = bool(request.form['paused'])
+        return success_response(True)
+
+
 @app.route('/api/queue', methods=['GET', 'POST', 'PUT'])
 def queue():
     if request.method == 'GET':
