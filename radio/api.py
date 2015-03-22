@@ -20,9 +20,11 @@ def query(query):
 @app.route('/api/player')
 def player():
     status = {
-        'track': app.player.track,
+        'paused': app.player.paused,
         'position': app.player.position,
+        'track': app.player.track,
         'version': app.player.version,
+        'volume': app.player.volume,
     }
     return jsonify(status)
 
@@ -49,8 +51,35 @@ def player_track():
             return success_response(False)
 
 
-@app.route('/api/queue', methods=['GET', 'POST', 'PUT'])
-def queue():
+@app.route('/api/player/position', methods=['GET', 'POST'])
+def player_position():
+    if request.method == 'GET':
+        return jsonify(position=app.player.position)
+    elif request.method == 'POST':
+        app.player.position = int(request.form['position'])
+        return success_response(True)
+
+
+@app.route('/api/player/paused', methods=['GET', 'POST'])
+def player_paused():
+    if request.method == 'GET':
+        return jsonify(paused=app.player.paused)
+    elif request.method == 'POST':
+        app.player.paused = bool(request.form['paused'])
+        return success_response(True)
+
+
+@app.route('/api/player/volume', methods=['GET', 'POST'])
+def player_volume():
+    if request.method == 'GET':
+        return jsonify(volume=app.player.volume)
+    elif request.method == 'POST':
+        app.player.volume = int(request.form['volume'])
+        return success_response(True)
+
+
+@app.route('/api/player/queue', methods=['GET', 'POST', 'PUT'])
+def player_queue():
     if request.method == 'GET':
         # Get queue
         return jsonify(queue=app.player.queue)

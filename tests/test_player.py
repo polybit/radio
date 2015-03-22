@@ -148,6 +148,46 @@ class TestPlayer(unittest.TestCase):
             self.assertEqual(self.player.track, self.test_track_2)
             self.assertEqual(self.player.queue, [])
 
+    def test_pause_play(self):
+        # Start track at time 0
+        with patch('time.time') as time:
+            time.return_value = 0
+            self.player.track = self.test_track
+            self.assertFalse(self.player.paused)
+
+        with patch('time.time') as time:
+            time.return_value = 10
+            self.player.paused = True
+            self.assertEqual(self.player.position, 10000)
+            self.assertTrue(self.player.paused)
+
+        with patch('time.time') as time:
+            time.return_value = 24
+            self.assertEqual(self.player.position, 10000)
+            self.assertTrue(self.player.paused)
+
+        with patch('time.time') as time:
+            time.return_value = 30
+            self.player.paused = False
+            self.assertEqual(self.player.position, 10000)
+            self.assertFalse(self.player.paused)
+
+        with patch('time.time') as time:
+            time.return_value = 40
+            self.assertEqual(self.player.position, 20000)
+            self.assertFalse(self.player.paused)
+
+    def test_volume(self):
+        self.player.volume = 70
+        self.assertEqual(self.player.volume, 70)
+
+        self.player.volume = 0
+        self.assertEqual(self.player.volume, 0)
+
+        with self.assertRaises(ValueError):
+            self.player.volume = 120
+        self.assertEqual(self.player.volume, 0)
+
     def test_clear(self):
         self.player.track = self.test_track
         self.player.queue_track(self.test_track_2)

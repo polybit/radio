@@ -5,12 +5,13 @@ from flask import jsonify
 
 from tests.base import BaseTestCase
 from radio import api, app
+from radio.player import Player
 
 
 class ApiTest(BaseTestCase):
 
     def setUp(self):
-        self.app.player.clear()
+        self.app.player = Player()
 
     def test_default_state(self):
         state = self.client.get("/api/player")
@@ -21,25 +22,25 @@ class ApiTest(BaseTestCase):
         self.assertIsNone(track)
 
     def test_get_queue(self):
-        response = self.client.get("/api/queue")
+        response = self.client.get("/api/player/queue")
         self.assertEquals(response.json, {'queue': []})
 
         response = self.client.post(
-            "/api/queue",
+            "/api/player/queue",
             data={'query': 'https://soundcloud.com/alt-j/something-good-alt-j'},
         )
 
         response = self.client.post(
-            "/api/queue",
+            "/api/player/queue",
             data={'query': 'https://soundcloud.com/alt-j/something-good-alt-j'},
         )
 
-        response = self.client.get("/api/queue")
+        response = self.client.get("/api/player/queue")
         self.assertIsNotNone(response.json['queue'])
 
     def test_invalid_query_request(self):
         response = self.client.post(
-            "/api/queue",
+            "/api/player/queue",
             data={'query': 'example.com'},
         )
         self.assertEquals(response.json, {'success': False})
@@ -49,7 +50,7 @@ class ApiTest(BaseTestCase):
 
     def test_success_query(self):
         response = self.client.post(
-            "/api/queue",
+            "/api/player/queue",
             data={'query': 'https://soundcloud.com/alt-j/something-good-alt-j'},
         )
         self.assertEquals(response.json, {'success': True})
@@ -76,10 +77,10 @@ class ApiTest(BaseTestCase):
     #             }
     #         ]
     #     }
-    #     response = self.client.put("/api/queue", data=data)
+    #     response = self.client.put("/api/player/queue", data=data)
     #     self.assertEquals(response.json, {'success': True})
 
-    #     response = self.client.get("/api/queue")
+    #     response = self.client.get("/api/player/queue")
     #     self.assertEquals(response.json, {'queue': queue})
 
     def test_get_track(self):
@@ -87,7 +88,7 @@ class ApiTest(BaseTestCase):
         self.assertEquals(response.json, {})
 
         response = self.client.post(
-            "/api/queue",
+            "/api/player/queue",
             data={'query': 'https://soundcloud.com/alt-j/something-good-alt-j'},
         )
         self.assertEquals(response.json, {'success': True})
@@ -122,3 +123,44 @@ class ApiTest(BaseTestCase):
         # State should be back to no track playing
         state = self.client.get("/api/player")
         self.assertIsNone(state.json['track'])
+
+    def test_pause(self):
+        response = self.client.get("/api/player/paused")
+        self.assertEquals(response.json, {'paused': False})
+
+        response = self.client.post(
+            "/api/player/paused",
+            data={'paused': True},
+        )
+        self.assertEquals(response.json, {'success': True})
+
+        response = self.client.get("/api/player/paused")
+        self.assertEquals(response.json, {'paused': True})
+
+    def test_volume(self):
+        response = self.client.post(
+            "/api/player/volume",
+            data={'volume': 70},
+        )
+        self.assertEquals(response.json, {'success': True})
+
+        response = self.client.get("/api/player/volume")
+        self.assertEquals(response.json, {'volume': 70})
+
+    def test_position(self):
+        # Play track
+        response = self.client.put(
+            "/api/player/track",
+            data={'query': 'https://soundcloud.com/alt-j/something-good-alt-j'},
+        )
+        self.assertEquals(response.json, {'success': True})
+
+        # Set position to 10s
+        response = self.client.post(
+            "/api/player/position",
+            data={'position': 10000},
+        )
+        self.assertEquals(response.json, {'success': True})
+
+        response = self.client.get("/api/player/position")
+        self.assertGreaterEqual(response.json['position'], 10000)

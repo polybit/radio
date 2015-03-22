@@ -16,7 +16,7 @@ var SongInput = React.createClass({
             disabled: true,
             placeholder: 'Queuing track...'
         });
-        $.post('/api/queue', {query: input.value.trim()}, function(data){
+        $.post('/api/player/queue', {query: input.value.trim()}, function(data){
             this.setState(this.getInitialState());
         }.bind(this));
         input.value = '';
