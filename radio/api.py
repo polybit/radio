@@ -20,9 +20,11 @@ def query(query):
 @app.route('/api/player')
 def player():
     status = {
-        'track': app.player.track,
+        'paused': app.player.paused,
         'position': app.player.position,
+        'track': app.player.track,
         'version': app.player.version,
+        'volume': app.player.volume,
     }
     return jsonify(status)
 
