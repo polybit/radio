@@ -5,7 +5,9 @@ var $ = require('jquery');
 
 module.exports = React.createClass({
     getInitialState: function () {
-        return {};
+        return {
+            track: null
+        };
     },
     load: function() {
         $.ajax({
@@ -37,31 +39,16 @@ module.exports = React.createClass({
     },
     render: function() {
         if (this.state.track) {
-            var player = (
-                <audio src={this.state.track.url} autoPlay controls>
-                    <source src={this.state.track.url} type={this.state.track.type} />
-                    Your browser does not support the audio element.
-                </audio>
-            )
-
-            var playerWrapper = <StreamItem
-                key={this.state.track.id}
-                title={this.state.track.meta.title}
-                artist={this.state.track.meta.artist}
-                link={this.state.track.meta.link}
-                artwork={this.state.track.meta.artwork}
-                ref="playerWrapper"
-            >
-                {player}
-            </StreamItem>
+            return (
+                <StreamItem track={this.state.track} ref="playerWrapper">
+                    <audio src={this.state.track.url} autoPlay controls>
+                        <source src={this.state.track.url} type={this.state.track.type} />
+                        Your browser does not support the audio element.
+                    </audio>
+                </StreamItem>
+            );
         } else {
-            var playerWrapper = '';
+            return null;
         }
-
-        return (
-            <div>
-                {playerWrapper}
-            </div>
-        );
     }
 });

@@ -19,7 +19,7 @@ var init = function(){
       <Stream pollInterval={1000} />,
       document.getElementById('stream')
     );
-}
+};
 
 init();
 
