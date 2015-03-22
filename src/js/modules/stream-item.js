@@ -1,4 +1,9 @@
-var StreamItem = React.createClass({
+var ColorThief = require('../lib/color-thief');
+var React = require('react');
+var $ = require('jquery');
+
+
+module.exports = React.createClass({
     getInitialState: function () {
         return {
             color: [0, 0, 0]
@@ -15,7 +20,7 @@ var StreamItem = React.createClass({
     render: function() {
         var itemStyle = {
             borderLeftColor: 'rgb(' + this.state.color.join(',') + ')'
-        }
+        };
         return (
             <li className="stream-item list-group-item" style={itemStyle}>
                 <div className="media">
