@@ -19,19 +19,19 @@ module.exports = React.createClass({
     },
     render: function() {
         var itemStyle = {
-            borderLeftColor: 'rgb(' + this.state.color.join(',') + ')'
+            borderLeftColor: 'rgb(' + this.state.color.join(',') + ')',
         };
         return (
             <li className="stream-item list-group-item" style={itemStyle}>
                 <div className="media">
                     <div className="media-left">
-                        <a href={this.props.link} target="_blank">
-                            <img ref="art" className="media-object" src={this.props.artwork} alt="" crossOrigin="anonymous" width="100" height="100" />
+                        <a href={this.props.track.meta.link} target="_blank">
+                            <img ref="art" className="media-object" src={this.props.track.meta.artwork} alt="" crossOrigin="anonymous" width="100" height="100" />
                         </a>
                     </div>
                     <div className="media-body">
-                        <h4 className="media-heading"><a href={this.props.link} target="_blank">{this.props.title}</a></h4>
-                        {this.props.artist}
+                        <h4 className="media-heading"><a href={this.props.track.meta.link} target="_blank">{this.props.track.meta.title}</a></h4>
+                        {this.props.track.meta.artist}
                         {this.props.children}
                     </div>
                 </div>
