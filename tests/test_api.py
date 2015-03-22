@@ -146,3 +146,21 @@ class ApiTest(BaseTestCase):
 
         response = self.client.get("/api/player/volume")
         self.assertEquals(response.json, {'volume': 70})
+
+    def test_position(self):
+        # Play track
+        response = self.client.put(
+            "/api/player/track",
+            data={'query': 'https://soundcloud.com/alt-j/something-good-alt-j'},
+        )
+        self.assertEquals(response.json, {'success': True})
+
+        # Set position to 10s
+        response = self.client.post(
+            "/api/player/position",
+            data={'position': 10000},
+        )
+        self.assertEquals(response.json, {'success': True})
+
+        response = self.client.get("/api/player/position")
+        self.assertGreaterEqual(response.json['position'], 10000)

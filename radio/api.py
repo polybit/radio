@@ -49,6 +49,15 @@ def player_track():
             return success_response(False)
 
 
+@app.route('/api/player/position', methods=['GET', 'POST'])
+def player_position():
+    if request.method == 'GET':
+        return jsonify(position=app.player.position)
+    elif request.method == 'POST':
+        app.player.position = int(request.form['position'])
+        return success_response(True)
+
+
 @app.route('/api/player/paused', methods=['GET', 'POST'])
 def player_paused():
     if request.method == 'GET':
