@@ -8,10 +8,7 @@ describe('stream-item', function() {
         var streamItem = TestUtils.renderIntoDocument(
             <StreamItem
                 key={1}
-                title='foo bar baz'
-                artist='foo barson'
-                link='example.com'
-                artwork='example.com/foo.jpg'
+                track={{meta: {}}}
             />
         );
     });
