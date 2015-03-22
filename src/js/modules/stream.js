@@ -28,7 +28,7 @@ module.exports = React.createClass({
     render: function() {
         if (this.state.queue.length > 0){
             var streamItems = this.state.queue.map(function (track) {
-                return <StreamItem key={track.id} track={track} />
+                return <StreamItem key={track.id} track={track} />;
             });
             return (
                 <ul className="list-group">
@@ -36,7 +36,7 @@ module.exports = React.createClass({
                 </ul>
             );
         } else {
-            return <h4>No items in the queue.</h4>
+            return <h4>No items in the queue.</h4>;
         }
     }
 });
