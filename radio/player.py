@@ -62,9 +62,11 @@ class Player(object):
     def paused(self, value):
         if value is True and not self.paused:
             self._paused_time = current_time()
+            self._update_version()
         elif value is False and self.paused:
             self._start_time = current_time() - self.position
             self._paused_time = None
+            self._update_version()
 
     @property
     def volume(self):
@@ -74,6 +76,7 @@ class Player(object):
     def volume(self, value):
         if value >= 0 and value <= 100:
             self._volume = value
+            self._update_version()
         else:
             raise ValueError("Volume must be set between 0 and 100")
 
