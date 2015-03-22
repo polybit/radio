@@ -58,6 +58,15 @@ def player_paused():
         return success_response(True)
 
 
+@app.route('/api/player/volume', methods=['GET', 'POST'])
+def player_volume():
+    if request.method == 'GET':
+        return jsonify(volume=app.player.volume)
+    elif request.method == 'POST':
+        app.player.volume = int(request.form['volume'])
+        return success_response(True)
+
+
 @app.route('/api/queue', methods=['GET', 'POST', 'PUT'])
 def queue():
     if request.method == 'GET':

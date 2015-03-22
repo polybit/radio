@@ -177,6 +177,17 @@ class TestPlayer(unittest.TestCase):
             self.assertEqual(self.player.position, 20000)
             self.assertFalse(self.player.paused)
 
+    def test_volume(self):
+        self.player.volume = 70
+        self.assertEqual(self.player.volume, 70)
+
+        self.player.volume = 0
+        self.assertEqual(self.player.volume, 0)
+
+        with self.assertRaises(ValueError):
+            self.player.volume = 120
+        self.assertEqual(self.player.volume, 0)
+
     def test_clear(self):
         self.player.track = self.test_track
         self.player.queue_track(self.test_track_2)

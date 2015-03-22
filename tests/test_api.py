@@ -136,3 +136,13 @@ class ApiTest(BaseTestCase):
 
         response = self.client.get("/api/player/paused")
         self.assertEquals(response.json, {'paused': True})
+
+    def test_volume(self):
+        response = self.client.post(
+            "/api/player/volume",
+            data={'volume': 70},
+        )
+        self.assertEquals(response.json, {'success': True})
+
+        response = self.client.get("/api/player/volume")
+        self.assertEquals(response.json, {'volume': 70})

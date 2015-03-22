@@ -14,6 +14,7 @@ class Player(object):
     _start_time = None
     _queue = []
     _paused_time = None
+    _volume = 50
 
     @property
     def version(self):
@@ -64,6 +65,17 @@ class Player(object):
         elif value is False and self.paused:
             self._start_time = current_time() - self.position
             self._paused_time = None
+
+    @property
+    def volume(self):
+        return self._volume
+
+    @volume.setter
+    def volume(self, value):
+        if value >= 0 and value <= 100:
+            self._volume = value
+        else:
+            raise ValueError("Volume must be set between 0 and 100")
 
     def queue_track(self, track):
         self._check_update()
