@@ -14,12 +14,24 @@ module.exports = React.createClass({
     updateLocalTime: function () {
         this.setState({currentLocalTime: this.state.currentLocalTime + 1});
     },
+    setStream: function (plugin, url) {
+        $.ajax({
+            url: '/api/plugins/'+plugin+'/stream?url='+url,
+            dataType: 'json',
+            success: function(data) {
+                this.setState({
+                    stream: data.stream,
+                });
+            }.bind(this)
+        });
+    },
     load: function() {
         $.ajax({
             url: '/api/player',
             dataType: 'json',
             success: function(data) {
                 if (data.version != this.state.version){
+                    this.setStream(data.track.plugin, data.track.url);
                     this.setState({
                         track: data.track,
                         version: data.version,
@@ -58,8 +70,8 @@ module.exports = React.createClass({
         if (this.state.track) {
             return (
                 <StreamItem track={this.state.track} ref="playerWrapper">
-                    <audio src={this.state.track.url} autoPlay controls ref="audio">
-                        <source src={this.state.track.url} type={this.state.track.type} />
+                    <audio src={this.state.stream} autoPlay controls ref="audio">
+                        <source src={this.state.stream} type={this.state.track.type} />
                         Your browser does not support the audio element.
                     </audio>
 
