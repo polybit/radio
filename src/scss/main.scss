@@ -18,8 +18,14 @@ body {
     }
 
     audio {
-        display: block;
-        margin-top: 27px;
+        display: none;
+    }
+
+    .progress {
+        margin-top: 44px;
+        height: 12px;
+        cursor: pointer;
+        margin-bottom: 0;
     }
 }
 
