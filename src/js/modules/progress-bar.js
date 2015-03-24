@@ -30,7 +30,7 @@ module.exports = React.createClass({
         }
     },
     componentDidMount: function () {
-        var progressTarget = React.findDOMNode(this.refs.progress)
+        var progressTarget = React.findDOMNode(this.refs.progress);
         var width = $(progressTarget).width();
         var posX = $(progressTarget).offset().left;
 
