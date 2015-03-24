@@ -105,6 +105,8 @@ class Player(object):
         if self._track is not None and current_time() >= self._start_time + self._track['duration']:
             if self.queue:
                 self._track = self.queue.pop(0)
+                self._start_time = current_time()
+                self._update_version()
             else:
                 self.clear()
 
