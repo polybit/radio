@@ -10,11 +10,17 @@ from radio.helpers import success_response
 
 
 def query(query):
-    for plugin in app.plugins:
+    for name, plugin in app.plugins.items():
         if plugin.match(query):
             track = plugin.get_track(query)
             return track
     return None
+
+
+@app.route('/api/plugins/<plugin>/stream')
+def plugin(plugin):
+    url = request.args.get('url', '')
+    return jsonify(stream=app.plugins[plugin].get_stream_url(url))
 
 
 @app.route('/api/player')
@@ -33,8 +39,9 @@ def player():
 def player_track():
     if request.method == 'GET':
         # Get current track
-        if app.player.track:
-            return jsonify(app.player.track)
+        track = app.player.track
+        if track:
+            return jsonify(track)
         else:
             return jsonify({})
     elif request.method == 'POST':
