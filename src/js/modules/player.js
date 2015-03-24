@@ -24,12 +24,9 @@ module.exports = React.createClass({
                         track: data.track,
                         version: data.version,
                         currentTime: Math.round(data.position / 1000.0),
+                        currentLocalTime: Math.round(data.position / 1000.0),
                         duration: (data.track) ? Math.round(data.track.duration / 1000.0) : 0,
                         volume: data.volume / 100.0
-                    });
-
-                    this.setState({
-                        currentLocalTime: this.state.currentTime
                     });
 
                     if (this.refs.audio){
