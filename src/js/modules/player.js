@@ -31,7 +31,9 @@ module.exports = React.createClass({
             dataType: 'json',
             success: function(data) {
                 if (data.version != this.state.version){
-                    this.setStream(data.track.plugin, data.track.url);
+                    if (!this.state.stream || (this.state.track && data.track.id != this.state.track.id)) {
+                        this.setStream(data.track.plugin, data.track.url);
+                    }
                     this.setState({
                         track: data.track,
                         version: data.version,
