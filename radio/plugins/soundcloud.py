@@ -17,6 +17,11 @@ def match(query):
     return re.match(SOUNDCLOUD_REGEX, query) is not None
 
 
+def get_stream_url(url):
+    track = client.get('/resolve', url=url)
+    return client.get(track.stream_url, allow_redirects=False).location
+
+
 def get_track(url):
     track = client.get('/resolve', url=url)
     artwork_url = track.artwork_url if track.artwork_url else track.user['avatar_url']
@@ -24,8 +29,9 @@ def get_track(url):
 
     return {
         'id': hasher.hexdigest(),
-        'url': client.get(track.stream_url, allow_redirects=False).location,
         'type': 'audio/mp3',
+        'plugin': 'soundcloud',
+        'url': url,
         'duration': track.duration,
         'meta': {
             'title': track.title,

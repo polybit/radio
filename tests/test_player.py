@@ -85,42 +85,6 @@ class TestPlayer(unittest.TestCase):
             time.return_value = 8
             self.assertEqual(self.player.position, 46000)
 
-    def test_queue_start(self):
-        self.player.queue_track(self.test_track)
-        self.assertEqual(self.player.track, self.test_track)
-
-    def test_queue(self):
-        # Start track at time 0
-        with patch('time.time') as time:
-            time.return_value = 0
-            self.player.track = self.test_track
-            self.assertEqual(self.player.queue, [])
-
-        # Queue track at time 2
-        with patch('time.time') as time:
-            time.return_value = 2
-            self.player.queue_track(self.test_track_2)
-            self.assertEqual(self.player.track, self.test_track)
-            self.assertEqual(self.player.queue, [self.test_track_2])
-
-        # Still in queue at time 10
-        with patch('time.time') as time:
-            time.return_value = 10
-            self.assertEqual(self.player.track, self.test_track)
-            self.assertEqual(self.player.queue, [self.test_track_2])
-
-        # After time 120s, next track plays
-        with patch('time.time') as time:
-            time.return_value = 121
-            self.assertEqual(self.player.track, self.test_track_2)
-            self.assertEqual(self.player.queue, [])
-
-        # After time 300s, should be back at initial state
-        with patch('time.time') as time:
-            time.return_value = 301
-            self.assertIsNone(self.player.track)
-            self.assertEqual(self.player.queue, [])
-
     def test_skip_track(self):
         # Start track at time 0
         with patch('time.time') as time:
@@ -195,3 +159,81 @@ class TestPlayer(unittest.TestCase):
 
         self.assertIsNone(self.player.track)
         self.assertEqual(self.player.queue, [])
+
+
+class TestQueue(unittest.TestCase):
+
+    def setUp(self):
+        self.player = Player()
+        self.player._queue = []
+        self.test_track = {
+            'duration': 120000,
+            'meta': {},
+            'type': 'audio/mp3',
+            'url': 'https://example.com/music.mp3',
+        }
+        self.test_track_2 = {
+            'duration': 180000,
+            'meta': {},
+            'type': 'audio/mp3',
+            'url': 'https://example.com/music2.mp3',
+        }
+        self.test_track_3 = {
+            'duration': 5000,
+            'meta': {},
+            'type': 'audio/mp3',
+            'url': 'https://example.com/music3.mp3',
+        }
+
+    def test_queue_start(self):
+        self.player.queue_track(self.test_track)
+        self.assertEqual(self.player.track, self.test_track)
+
+    def test_queue(self):
+        # Start track at time 0
+        with patch('time.time') as time:
+            time.return_value = 0
+            self.player.track = self.test_track
+            self.assertEqual(self.player.queue, [])
+
+        # Queue tracks at time 2
+        with patch('time.time') as time:
+            time.return_value = 2
+            self.player.queue_track(self.test_track_2)
+            self.player.queue_track(self.test_track_3)
+            self.assertEqual(self.player.track, self.test_track)
+            self.assertEqual(self.player.queue, [self.test_track_2, self.test_track_3])
+
+        # Still in queue at time 10
+        with patch('time.time') as time:
+            time.return_value = 10
+            self.assertEqual(self.player.track, self.test_track)
+            self.assertEqual(self.player.queue, [self.test_track_2, self.test_track_3])
+
+        # After time 120s, next track plays
+        with patch('time.time') as time:
+            time.return_value = 120
+            self.assertEqual(self.player.track, self.test_track_2)
+            self.assertEqual(self.player.queue, [self.test_track_3])
+
+        with patch('time.time') as time:
+            time.return_value = 122
+            self.assertEqual(self.player.track, self.test_track_2)
+            self.assertEqual(self.player.queue, [self.test_track_3])
+
+        # After time 300s, next track plays
+        with patch('time.time') as time:
+            time.return_value = 300
+            self.assertEqual(self.player.track, self.test_track_3)
+            self.assertEqual(self.player.queue, [])
+
+        with patch('time.time') as time:
+            time.return_value = 302
+            self.assertEqual(self.player.track, self.test_track_3)
+            self.assertEqual(self.player.queue, [])
+
+        # After time 305s, should be back at initial state
+        with patch('time.time') as time:
+            time.return_value = 305
+            self.assertIsNone(self.player.track)
+            self.assertEqual(self.player.queue, [])
