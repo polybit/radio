@@ -6,7 +6,6 @@ env:
   - ENV=py34
   - ENV=frontend
 install:
-  - pip install tox
   - pip install coveralls
 script:
   - ./travis_run.sh $ENV

@@ -5,9 +5,10 @@ then
     echo "Running frontend tests..."
     npm install -g jsxhint
     jsxhint src/js/**/*.js
-    npm install
+    ./install_and_run.sh
     npm test
 else
     echo "Running tox..."
+    pip install tox
     tox -e $1
 fi
