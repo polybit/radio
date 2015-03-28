@@ -30,8 +30,12 @@ module.exports = React.createClass({
                         </a>
                     </div>
                     <div className="media-body">
-                        <h4 className="media-heading"><a href={this.props.track.meta.link} target="_blank">{this.props.track.meta.title}</a></h4>
+                        <h4 className="media-heading">
+                            <a href={this.props.track.meta.link} target="_blank">{this.props.track.meta.title}</a>
+                            <a href={this.props.track.meta.link} target="_blank" className="attribution"><img src="../static/img/soundcloud-logo-black.png" /></a>
+                        </h4>
                         {this.props.track.meta.artist}
+
                         {this.props.children}
                     </div>
                 </div>

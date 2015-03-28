@@ -13,8 +13,16 @@ body {
     background-color: #fff;
     border-left-width: 5px;
 
-    img {
+    .media-object {
         border: 1px solid #e7e7e7;
+    }
+
+    .attribution {
+        float: right;
+
+        img {
+            vertical-align: top;
+        }
     }
 
     audio {

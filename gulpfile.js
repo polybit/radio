@@ -10,8 +10,10 @@ var reactify = require('reactify');
 var path = {
   SCSS: './src/scss/**/*.scss',
   HTML: './src/index.html',
+  IMAGES: './src/img/**/*',
   OUT: 'build.js',
   DEST_HTML: './radio/static',
+  DEST_IMAGES: './radio/static/img',
   DEST_JS: './radio/static/js',
   DEST_CSS: './radio/static/css',
   ENTRY_POINT: './src/js/main.js'
@@ -26,6 +28,10 @@ gulp.task('browser-sync', function() {
 gulp.task('copy', function(){
     gulp.src(path.HTML)
         .pipe(gulp.dest(path.DEST_HTML))
+        .pipe(browserSync.reload({stream: true}));
+
+    gulp.src(path.IMAGES)
+        .pipe(gulp.dest(path.DEST_IMAGES))
         .pipe(browserSync.reload({stream: true}));
 });
 
