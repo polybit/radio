@@ -18,6 +18,7 @@ class Player(object):
 
     @property
     def version(self):
+        self._check_update()
         return self._version
 
     @property
@@ -33,6 +34,7 @@ class Player(object):
 
     @property
     def position(self):
+        self._check_update()
         if self._start_time is not None:
             if self._paused_time is not None:
                 return self._paused_time - self._start_time
@@ -48,6 +50,7 @@ class Player(object):
 
     @property
     def queue(self):
+        self._check_update()
         return self._queue
 
     @queue.setter
@@ -103,8 +106,8 @@ class Player(object):
     def _check_update(self):
         # If track has ended, play next track from queue or finish
         if self._track is not None and current_time() >= self._start_time + self._track['duration']:
-            if self.queue:
-                self._track = self.queue.pop(0)
+            if self._queue:
+                self._track = self._queue.pop(0)
                 self._start_time = current_time()
                 self._update_version()
             else:
