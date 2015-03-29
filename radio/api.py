@@ -3,7 +3,7 @@ from __future__ import unicode_literals
 
 import json
 
-from flask import jsonify, request
+from flask import jsonify, request, Response
 
 from radio import app
 from radio.helpers import success_response
@@ -29,10 +29,14 @@ def player():
         'paused': app.player.paused,
         'position': app.player.position,
         'track': app.player.track,
-        'version': app.player.version,
         'volume': app.player.volume,
     }
     return jsonify(status)
+
+
+@app.route('/api/player/stream')
+def stream():
+    return Response(app.player.event_queue.stream(), mimetype="text/event-stream")
 
 
 @app.route('/api/player/track', methods=['GET', 'POST', 'PUT'])
@@ -72,7 +76,7 @@ def player_paused():
     if request.method == 'GET':
         return jsonify(paused=app.player.paused)
     elif request.method == 'POST':
-        app.player.paused = bool(request.form['paused'])
+        app.player.toggle_pause()
         return success_response(True)
 
 

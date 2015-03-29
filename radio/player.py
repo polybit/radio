@@ -1,96 +1,125 @@
 # -*- coding: utf-8 -*-
 from __future__ import unicode_literals
 
-import hashlib
+import sched
 import time
+from six.moves import queue
 
-hasher = hashlib.md5()
-current_time = lambda: int(round(time.time() * 1000))
+from radio.events import Event
+
+
+scheduler = sched.scheduler(time.time, time.sleep)
+
+
+class EventQueue(object):
+    _event_queue = None
+
+    def __init__(self):
+        self._event_queue = queue.Queue()
+
+    def send_event(self, *args, **kwargs):
+        self._event_queue.put(Event(**kwargs))
+
+    def stream(self):
+        while True:
+            event = self._event_queue.get()
+            yield event.repr()
+
+
+class SingleTimer(object):
+    _action = None
+    _event = None
+
+    def __init__(self, action):
+        self._action = action
+
+    def clear(self):
+        if self._event:
+            scheduler.cancel(self._event)
+
+    def schedule(self, delay):
+        self.clear()
+        self._event = scheduler.enter(delay, 1, self._action, ())
+
+    def time(self):
+        return self._event.time
 
 
 class Player(object):
-    _version = None
-    _track = None
-    _start_time = None
-    _queue = []
-    _paused_time = None
-    _volume = 50
+    def __init__(self):
+        self._track = None
+        self._volume = 50
+        self._paused_position = None
+        self._queue = []
 
-    @property
-    def version(self):
-        self._check_update()
-        return self._version
+        self.event_queue = EventQueue()
+        self.timer = SingleTimer(self.next_track)
 
     @property
     def track(self):
-        self._check_update()
         return self._track
 
     @track.setter
-    def track(self, value):
-        self._track = value
-        self._start_time = current_time()
-        self._update_version()
+    def track(self, track):
+        self._track = track
+        self.timer.schedule(self.track.duration)
+        self.event_queue.send_event(track=self.track, position=self.position)
 
     @property
     def position(self):
-        self._check_update()
-        if self._start_time is not None:
-            if self._paused_time is not None:
-                return self._paused_time - self._start_time
+        if self.track:
+            if self._paused_position:
+                return self._paused_position
             else:
-                return current_time() - self._start_time
-        else:
-            return None
+                return self.timer.time() - time.time()
 
     @position.setter
-    def position(self, value):
-        self._start_time = current_time() - value
-        self._update_version()
+    def position(self, position):
+        self.timer.schedule(self.track.duration - position)
+        self.event_queue.send_event(position=self.position)
 
     @property
     def queue(self):
-        self._check_update()
         return self._queue
 
     @queue.setter
-    def queue(self, value):
-        self._queue = value
+    def queue(self, queue):
+        self._queue = queue
+        self.event_queue.send_event(queue=self.queue)
 
     @property
     def paused(self):
-        return self._paused_time is not None
+        return self._paused_position is not None
 
     @paused.setter
-    def paused(self, value):
-        if value is True and not self.paused:
-            self._paused_time = current_time()
-            self._update_version()
-        elif value is False and self.paused:
-            self._start_time = current_time() - self.position
-            self._paused_time = None
-            self._update_version()
+    def toggle_pause(self):
+        if self.paused:
+            self.timer.schedule(self.track.duration - self._paused_position)
+            self._paused_position = None
+            self.event_queue.send_event(paused=False, position=self.position)
+        else:
+            self.timer.clear()
+            self._paused_position = self.position
+            self.event_queue.send_event(paused=True, position=self.position)
 
     @property
     def volume(self):
         return self._volume
 
     @volume.setter
-    def volume(self, value):
-        if value >= 0 and value <= 100:
-            self._volume = value
-            self._update_version()
-        else:
-            raise ValueError("Volume must be set between 0 and 100")
+    def volume(self, volume):
+        volume = max(0, min(100, volume))
+        self._volume = volume
+        self.event_queue.send_event(volume=volume)
 
     def queue_track(self, track):
-        self._check_update()
         if self.track:
             self._queue.append(track)
+            self.event_queue.send_event(queue=queue)
         else:
             self.track = track
 
-    def skip_track(self):
+    def next_track(self):
         if self._queue:
             self.track = self.queue.pop(0)
         else:
@@ -99,20 +128,5 @@ class Player(object):
     def clear(self):
         self._queue = []
         self._track = None
-        self._start_time = None
-        self._paused_time = None
-        self._update_version()
-
-    def _check_update(self):
-        # If track has ended, play next track from queue or finish
-        if self._track is not None and current_time() >= self._start_time + self._track['duration']:
-            if self._queue:
-                self._track = self._queue.pop(0)
-                self._start_time = current_time()
-                self._update_version()
-            else:
-                self.clear()
-
-    def _update_version(self):
-        hasher.update(str(current_time()).encode('utf-8'))
-        self._version = hasher.hexdigest()
+        self._paused_position = None
+        self.event_queue.send_event(track=None, queue=queue)
