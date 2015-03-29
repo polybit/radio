@@ -14,3 +14,6 @@ after_success:
 notifications:
   email:
     - admin@polybit.org
+branches:
+  only:
+    - master
