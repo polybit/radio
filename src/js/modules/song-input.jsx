@@ -3,25 +3,25 @@ var $ = require('jquery');
 
 
 var SongInput = React.createClass({
-    getInitialState: function() {
+    getInitialState: function () {
         return {
             disabled: false,
             placeholder: 'Enter an audio url'
         };
     },
-    handleSubmit: function(e) {
+    handleSubmit: function (e) {
         e.preventDefault();
         var input = React.findDOMNode(this.refs.url);
         this.setState({
             disabled: true,
             placeholder: 'Queuing track...'
         });
-        $.post('/api/player/queue', {query: input.value.trim()}, function(data){
+        $.post('/api/player/queue', {query: input.value.trim()}, function (data) {
             this.setState(this.getInitialState());
         }.bind(this));
         input.value = '';
     },
-    render: function() {
+    render: function () {
         return (
             <form className="songForm" onSubmit={this.handleSubmit}>
                 <div className="form-group">

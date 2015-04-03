@@ -11,13 +11,13 @@ module.exports = React.createClass({
     },
     componentDidMount: function () {
         var art = React.findDOMNode(this.refs.art);
-        $(art).on('load', (function() {
+        $(art).on('load', (function () {
             var colorThief = new ColorThief();
             var color = colorThief.getColor(art);
             this.setState({color: color});
         }).bind(this));
     },
-    render: function() {
+    render: function () {
         var itemStyle = {
             borderLeftColor: 'rgb(' + this.state.color.join(',') + ')',
         };

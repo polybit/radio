@@ -16,21 +16,21 @@ module.exports = React.createClass({
     },
     setStream: function (plugin, url) {
         $.ajax({
-            url: '/api/plugins/'+plugin+'/stream?url='+url,
+            url: '/api/plugins/' + plugin + '/stream?url=' + url,
             dataType: 'json',
-            success: function(data) {
+            success: function (data) {
                 this.setState({
                     stream: data.stream,
                 });
             }.bind(this)
         });
     },
-    load: function() {
+    load: function () {
         $.ajax({
             url: '/api/player',
             dataType: 'json',
-            success: function(data) {
-                if (data.version != this.state.version){
+            success: function (data) {
+                if (data.version != this.state.version) {
                     if (data.track && (!this.state.stream || (this.state.track && data.track.id != this.state.track.id))) {
                         this.setStream(data.track.plugin, data.track.url);
                     }
@@ -44,7 +44,7 @@ module.exports = React.createClass({
                         volume: data.volume / 100.0
                     });
 
-                    if (this.refs.audio){
+                    if (this.refs.audio) {
                         var audio = React.findDOMNode(this.refs.audio);
                         audio.currentTime = this.state.currentTime;
                         audio.volume = this.state.volume;
@@ -52,7 +52,7 @@ module.exports = React.createClass({
                     }
 
                     // TODO: sort out all the colour stuff and duplication...
-                    $('#player img').on('load', function(e) {
+                    $('#player img').on('load', function (e) {
                         var colorThief = new ColorThief();
                         var color = colorThief.getColor(e.target);
                         this.setState({color: color});
@@ -61,15 +61,15 @@ module.exports = React.createClass({
             }.bind(this)
         });
     },
-    componentDidMount: function() {
+    componentDidMount: function () {
         this.load();
         setInterval(this.load, this.props.pollInterval);
         setInterval(this.updateLocalTime, 1000);
     },
-    handleUrlSubmit: function() {
+    handleUrlSubmit: function () {
         this.load();
     },
-    render: function() {
+    render: function () {
         if (this.state.track) {
             return (
                 <StreamItem track={this.state.track} ref="playerWrapper">

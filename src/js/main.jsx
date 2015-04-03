@@ -4,7 +4,7 @@ var Stream = require('./modules/stream');
 var React = require('react');
 
 
-var init = function(){
+var init = function () {
     React.render(
       <Player pollInterval={1000} />,
       document.getElementById('player')

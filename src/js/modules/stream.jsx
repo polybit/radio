@@ -7,26 +7,26 @@ module.exports = React.createClass({
     getInitialState: function () {
         return {queue: []};
     },
-    load: function() {
+    load: function () {
         $.ajax({
             url: '/api/player/queue',
             dataType: 'json',
-            success: function(data) {
+            success: function (data) {
                 this.setState({
                     queue: data.queue,
                 });
             }.bind(this)
         });
     },
-    componentDidMount: function() {
+    componentDidMount: function () {
         this.load();
         setInterval(this.load, this.props.pollInterval);
     },
-    handleUrlSubmit: function() {
+    handleUrlSubmit: function () {
         this.load();
     },
-    render: function() {
-        if (this.state.queue.length > 0){
+    render: function () {
+        if (this.state.queue.length > 0) {
             var streamItems = this.state.queue.map(function (track) {
                 return <StreamItem key={track.id} track={track} />;
             });

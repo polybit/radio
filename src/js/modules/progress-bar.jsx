@@ -12,20 +12,20 @@ module.exports = React.createClass({
             color: [0, 0, 0],
         };
     },
-    postPercentage: function(percentage) {
+    postPercentage: function (percentage) {
         this.setDisplayPercentage(percentage);
         $.post('/api/player/position', {position: Math.floor((this.state.localPercentage / 100) * this.props.duration * 1000)});
     },
-    setDisplayPercentage: function(percentage) {
-        if (percentage > 100){
+    setDisplayPercentage: function (percentage) {
+        if (percentage > 100) {
             percentage = 100;
-        } else if (percentage < 0){
+        } else if (percentage < 0) {
             percentage = 0;
         }
         this.setState({localPercentage: percentage});
     },
     componentWillReceiveProps: function (nextProps) {
-        if (!this.state.dragging){
+        if (!this.state.dragging) {
             this.setState({localPercentage: null});
         }
     },
@@ -34,22 +34,22 @@ module.exports = React.createClass({
         var width = $(progressTarget).width();
         var posX = $(progressTarget).offset().left;
 
-        $(progressTarget).on('mousedown', function(e){
+        $(progressTarget).on('mousedown', function (e) {
             this.setState({dragging: true});
-            $(document).on('mousemove', function(e){
+            $(document).on('mousemove', function (e) {
                 this.setDisplayPercentage((e.pageX - posX) / width * 100);
             }.bind(this));
 
-            $(document).one('mouseup', function(e){
+            $(document).one('mouseup', function (e) {
                 this.postPercentage((e.pageX - posX) / width * 100);
                 $(document).off('mousemove');
                 this.setState({dragging: false});
             }.bind(this));
         }.bind(this));
     },
-    render: function() {
+    render: function () {
         var percentage;
-        if (this.state.localPercentage){
+        if (this.state.localPercentage) {
             percentage = this.state.localPercentage;
         } else {
             percentage = this.props.currentTime / this.props.duration * 100;
