@@ -11,6 +11,7 @@ elif [ "$1" == "jscs" ]
 then
     echo "Running jscs linter..."
     npm install -g jscs
+    npm install -g esprima-fb
     jscs src/js/modules/ src/js/*.js*
 else
     echo "Running tox..."

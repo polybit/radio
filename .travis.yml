@@ -20,5 +20,5 @@ branches:
     - master
 matrix:
   allow_failures:
-    - jscs
+    - env: jscs
   fast_finish: true
