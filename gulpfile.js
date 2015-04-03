@@ -16,7 +16,7 @@ var path = {
   DEST_IMAGES: './radio/static/img',
   DEST_JS: './radio/static/js',
   DEST_CSS: './radio/static/css',
-  ENTRY_POINT: './src/js/main.js'
+  ENTRY_POINT: './src/js/main.jsx'
 };
 
 gulp.task('browser-sync', function() {
@@ -52,7 +52,8 @@ gulp.task('watch', ['sass', 'copy', 'browser-sync'], function() {
         debug: true,
         cache: {},
         packageCache: {},
-        fullPaths: true
+        fullPaths: true,
+        extensions: ['.jsx'],
     }));
 
     return watcher.on('update', function () {
@@ -69,7 +70,8 @@ gulp.task('watch', ['sass', 'copy', 'browser-sync'], function() {
 gulp.task('build', function(){
     browserify({
         entries: [path.ENTRY_POINT],
-        transform: [reactify]
+        transform: [reactify],
+        extensions: ['.jsx'],
     })
     .bundle()
     .pipe(source(path.OUT))
