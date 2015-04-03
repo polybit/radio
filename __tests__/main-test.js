@@ -11,7 +11,7 @@ describe('main', function() {
           '</div>';
 
         // init is called automatically from main on require
-        require('../src/js/main');
+        require('../src/js/main.jsx');
 
         // Turn automock back on
         jest.autoMockOn();

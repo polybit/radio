@@ -1,5 +1,5 @@
-var StreamItem = require('./stream-item');
-var ProgressBar = require('./progress-bar');
+var StreamItem = require('./stream-item.jsx');
+var ProgressBar = require('./progress-bar.jsx');
 var React = require('react');
 var $ = require('jquery');
 var ColorThief = require('../lib/color-thief');

@@ -1,6 +1,6 @@
-var Player = require('./modules/player');
-var SongInput = require('./modules/song-input');
-var Stream = require('./modules/stream');
+var Player = require('./modules/player.jsx');
+var SongInput = require('./modules/song-input.jsx');
+var Stream = require('./modules/stream.jsx');
 var React = require('react');
 
 

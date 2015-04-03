@@ -1,4 +1,4 @@
-var StreamItem = require('./stream-item');
+var StreamItem = require('./stream-item.jsx');
 var React = require('react');
 var $ = require('jquery');
 
