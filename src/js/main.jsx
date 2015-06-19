@@ -5,6 +5,9 @@ var React = require('react');
 
 
 var init = function () {
+    let hello = (() => '%c Hello, ES2015/ES6/Harmony/... World!');
+    console.log(hello(), 'background: #222; color: #bada55');
+
     React.render(
       <Player pollInterval={1000} />,
       document.getElementById('player')

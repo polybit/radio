@@ -4,7 +4,7 @@ var sass = require('gulp-sass');
 var browserify = require('browserify');
 var source = require('vinyl-source-stream');
 var watchify = require('watchify');
-var reactify = require('reactify');
+var babelify = require('babelify');
 
 
 var path = {
@@ -19,11 +19,19 @@ var path = {
   ENTRY_POINT: './src/js/main.jsx'
 };
 
+
+var babelifyConfig = babelify.configure({
+    // Libs aren't guaranteed to be compatible
+    ignore: ['./src/js/lib']
+});
+
+
 gulp.task('browser-sync', function() {
     browserSync({
         proxy: "localhost:5000"
     });
 });
+
 
 gulp.task('copy', function(){
     gulp.src(path.HTML)
@@ -35,6 +43,7 @@ gulp.task('copy', function(){
         .pipe(browserSync.reload({stream: true}));
 });
 
+
 gulp.task('sass', function () {
     gulp.src(path.SCSS)
         .pipe(sass())
@@ -42,13 +51,14 @@ gulp.task('sass', function () {
         .pipe(browserSync.reload({stream: true}));
 });
 
+
 gulp.task('watch', ['sass', 'copy', 'browser-sync'], function() {
     gulp.watch(path.HTML, ['copy']);
     gulp.watch(path.SCSS, ['sass']);
 
     var watcher  = watchify(browserify({
         entries: [path.ENTRY_POINT],
-        transform: [reactify],
+        transform: [babelifyConfig],
         debug: true,
         cache: {},
         packageCache: {},
@@ -67,16 +77,18 @@ gulp.task('watch', ['sass', 'copy', 'browser-sync'], function() {
     .pipe(gulp.dest(path.DEST_JS));
 });
 
+
 gulp.task('build', function(){
     browserify({
         entries: [path.ENTRY_POINT],
-        transform: [reactify],
         extensions: ['.jsx'],
     })
+    .transform(babelifyConfig)
     .bundle()
     .pipe(source(path.OUT))
     .pipe(gulp.dest(path.DEST_JS));
 });
+
 
 gulp.task('default', ['sass', 'copy', 'build']);
 
