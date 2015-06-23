@@ -50,16 +50,17 @@ module.exports = React.createClass({
                         audio.volume = this.state.volume;
                         audio.play();
                     }
-
-                    // TODO: sort out all the colour stuff and duplication...
-                    $('#player img').on('load', (e) => {
-                        const colorThief = new ColorThief(),
-                              color = colorThief.getColor(e.target);
-                        this.setState({color: color});
-                    });
                 }
             }
         });
+
+        // TODO: sort out all the colour stuff and duplication...
+        if (this.refs.playerWrapper && this.refs.playerWrapper.refs.art) {
+            const artNode = React.findDOMNode(this.refs.playerWrapper.refs.art),
+                  colorThief = new ColorThief();
+
+            this.setState({color: colorThief.getColor(artNode)});
+        }
     },
     componentDidMount: function () {
         this.load();

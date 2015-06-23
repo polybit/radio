@@ -4,13 +4,12 @@ var React = require('react'),
 
 module.exports = React.createClass({
     getInitialState: function () {
-        return {
-            color: [0, 0, 0]
-        };
+        return {};
     },
     getDefaultProps: function () {
         return {
-            duration: 1
+            duration: 1,
+            color: [0, 0, 0]
         };
     },
     postPercentage: function (percentage) {
@@ -58,7 +57,7 @@ module.exports = React.createClass({
 
         const style = {
             width: `${percentage}%`,
-            backgroundColor: `rgb(${this.state.color.join(',')})`
+            backgroundColor: `rgb(${this.props.color.join(',')})`
         };
 
         return (
