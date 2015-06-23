@@ -11,11 +11,11 @@ module.exports = React.createClass({
         $.ajax({
             url: '/api/player/queue',
             dataType: 'json',
-            success: function (data) {
+            success: (data) => {
                 this.setState({
                     queue: data.queue
                 });
-            }.bind(this)
+            }
         });
     },
     componentDidMount: function () {

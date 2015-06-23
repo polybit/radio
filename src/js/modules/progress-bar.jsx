@@ -35,18 +35,18 @@ module.exports = React.createClass({
             width = $(progressTarget).width(),
             posX = $(progressTarget).offset().left;
 
-        $(progressTarget).on('mousedown', function () {
+        $(progressTarget).on('mousedown', () => {
             this.setState({dragging: true});
-            $(document).on('mousemove', function (e) {
+            $(document).on('mousemove', (e) => {
                 this.setDisplayPercentage((e.pageX - posX) / width * 100);
-            }.bind(this));
+            });
 
-            $(document).one('mouseup', function (e) {
+            $(document).one('mouseup', (e) => {
                 this.postPercentage((e.pageX - posX) / width * 100);
                 $(document).off('mousemove');
                 this.setState({dragging: false});
-            }.bind(this));
-        }.bind(this));
+            });
+        });
     },
     render: function () {
         var percentage;

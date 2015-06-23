@@ -16,9 +16,9 @@ module.exports = React.createClass({
             disabled: true,
             placeholder: 'Queuing track...'
         });
-        $.post('/api/player/queue', {query: input.value.trim()}, function () {
+        $.post('/api/player/queue', {query: input.value.trim()}, () => {
             this.setState(this.getInitialState());
-        }.bind(this));
+        });
         input.value = '';
     },
     render: function () {

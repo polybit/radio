@@ -10,15 +10,16 @@ module.exports = React.createClass({
         };
     },
     componentDidMount: function () {
-        var art = React.findDOMNode(this.refs.art);
-        $(art).on('load', (function () {
-            var colorThief = new ColorThief(),
-                color = colorThief.getColor(art);
+        const art = React.findDOMNode(this.refs.art),
+              colorThief = new ColorThief();
+
+        $(art).on('load', () => {
+            const color = colorThief.getColor(art);
             this.setState({color: color});
-        }).bind(this));
+        });
     },
     render: function () {
-        var itemStyle = {
+        const itemStyle = {
             borderLeftColor: `rgb(${this.state.color.join(',')})`
         };
         return (

@@ -18,18 +18,18 @@ module.exports = React.createClass({
         $.ajax({
             url: `/api/plugins/${plugin}/stream?url=${url}`,
             dataType: 'json',
-            success: function (data) {
+            success: (data) => {
                 this.setState({
                     stream: data.stream
                 });
-            }.bind(this)
+            }
         });
     },
     load: function () {
         $.ajax({
             url: '/api/player',
             dataType: 'json',
-            success: function (data) {
+            success: (data) => {
                 if (data.version !== this.state.version) {
                     if (data.track && (!this.state.stream || (this.state.track && data.track.id !== this.state.track.id))) {
                         this.setStream(data.track.plugin, data.track.url);
@@ -52,13 +52,13 @@ module.exports = React.createClass({
                     }
 
                     // TODO: sort out all the colour stuff and duplication...
-                    $('#player img').on('load', function (e) {
-                        var colorThief = new ColorThief(),
-                            color = colorThief.getColor(e.target);
+                    $('#player img').on('load', (e) => {
+                        const colorThief = new ColorThief(),
+                              color = colorThief.getColor(e.target);
                         this.setState({color: color});
-                    }.bind(this));
+                    });
                 }
-            }.bind(this)
+            }
         });
     },
     componentDidMount: function () {
