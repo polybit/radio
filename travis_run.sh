@@ -8,6 +8,7 @@ then
 elif [ "$1" == "jscs" ]
 then
     echo "Running jscs linter..."
+    npm install jscs
     npm run-script jscs
 else
     echo "Running tox..."
