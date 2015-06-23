@@ -28,7 +28,8 @@ var babelifyConfig = babelify.configure({
 
 gulp.task('browser-sync', function() {
     browserSync({
-        proxy: "localhost:5000"
+        proxy: "localhost:5000",
+        open: false
     });
 });
 
