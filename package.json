@@ -19,6 +19,7 @@
     "gulp-sass": "^1.3.3",
     "jest-cli": "^0.4.0",
     "jquery": "^2.1.3",
+    "jscs": "^1.13.1",
     "jsxhint": "^0.15.1",
     "react": "^0.13.1",
     "react-tools": "^0.13.1",
@@ -27,7 +28,8 @@
   },
   "scripts": {
     "test": "jsxhint --harmony src/js/modules/**/*.js* src/js/*.js* && jest",
-    "jest": "jest"
+    "jest": "jest",
+    "jscs": "jscs src/js/modules/*.js* src/js/*.js*"
   },
   "jest": {
     "scriptPreprocessor": "./node_modules/babel-jest",

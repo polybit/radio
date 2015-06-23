@@ -8,8 +8,7 @@ then
 elif [ "$1" == "jscs" ]
 then
     echo "Running jscs linter..."
-    npm install -g jscs esprima-fb
-    jscs src/js/modules/**/*.js* src/js/*.js*
+    npm run-script jscs
 else
     echo "Running tox..."
     pip install tox
