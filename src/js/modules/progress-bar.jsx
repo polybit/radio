@@ -4,12 +4,13 @@ var React = require('react'),
 
 module.exports = React.createClass({
     getInitialState: function () {
-        return {};
+        return {
+            color: [0, 0, 0]
+        };
     },
     getDefaultProps: function () {
         return {
-            duration: 1,
-            color: [0, 0, 0]
+            duration: 1
         };
     },
     postPercentage: function (percentage) {
@@ -48,15 +49,14 @@ module.exports = React.createClass({
         }.bind(this));
     },
     render: function () {
-        var percentage,
-            style;
+        var percentage;
         if (this.state.localPercentage) {
             percentage = this.state.localPercentage;
         } else {
             percentage = this.props.currentTime / this.props.duration * 100;
         }
 
-        style = {
+        const style = {
             width: `${percentage}%`,
             backgroundColor: `rgb(${this.state.color.join(',')})`
         };
