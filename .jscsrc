@@ -2,8 +2,4 @@
     "esprima": "esprima-fb",
     "fileExtensions": [".js", ".jsx"],
     "preset": "crockford",
-    "disallowTrailingComma": null,
-    "requireTrailingComma": {
-        "ignoreSingleLine": true
-    }
 }

@@ -30,8 +30,8 @@ module.exports = React.createClass({
             url: '/api/player',
             dataType: 'json',
             success: function (data) {
-                if (data.version != this.state.version) {
-                    if (data.track && (!this.state.stream || (this.state.track && data.track.id != this.state.track.id))) {
+                if (data.version !== this.state.version) {
+                    if (data.track && (!this.state.stream || (this.state.track && data.track.id !== this.state.track.id))) {
                         this.setStream(data.track.plugin, data.track.url);
                     }
 

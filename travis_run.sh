@@ -4,15 +4,14 @@ if [ "$1" == "frontend" ]
 then
     echo "Running frontend tests..."
     npm install -g jsxhint
-    jsxhint src/js/**/*.js
+    jsxhint --harmony src/js/modules/**/*.js* src/js/*.js*
     ./install_and_run.sh
     npm test
 elif [ "$1" == "jscs" ]
 then
     echo "Running jscs linter..."
-    npm install -g jscs
-    npm install -g esprima-fb
-    jscs src/js/modules/ src/js/*.js*
+    npm install -g jscs esprima-fb
+    jscs src/js/modules/**/*.js* src/js/*.js*
 else
     echo "Running tox..."
     pip install tox

@@ -24,7 +24,7 @@ module.exports = React.createClass({
         }
         this.setState({localPercentage: percentage});
     },
-    componentWillReceiveProps: function (nextProps) {
+    componentWillReceiveProps: function () {
         if (!this.state.dragging) {
             this.setState({localPercentage: null});
         }
@@ -34,7 +34,7 @@ module.exports = React.createClass({
         var width = $(progressTarget).width();
         var posX = $(progressTarget).offset().left;
 
-        $(progressTarget).on('mousedown', function (e) {
+        $(progressTarget).on('mousedown', function () {
             this.setState({dragging: true});
             $(document).on('mousemove', function (e) {
                 this.setDisplayPercentage((e.pageX - posX) / width * 100);
