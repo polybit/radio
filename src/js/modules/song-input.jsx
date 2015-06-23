@@ -11,7 +11,7 @@ module.exports = React.createClass({
     },
     handleSubmit: function (e) {
         e.preventDefault();
-        var input = React.findDOMNode(this.refs.url);
+        const input = React.findDOMNode(this.refs.url);
         this.setState({
             disabled: true,
             placeholder: 'Queuing track...'

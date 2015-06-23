@@ -2,4 +2,5 @@
     "esprima": "esprima-fb",
     "fileExtensions": [".js", ".jsx"],
     "preset": "crockford"
+    "requireMultipleVarDecl": false
 }
