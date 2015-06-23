@@ -56,8 +56,8 @@ module.exports = React.createClass({
         }
 
         var style = {
-            width: percentage + '%',
-            backgroundColor: 'rgb(' + this.props.color.join(',') + ')'
+            width: `${percentage}%`,
+            backgroundColor: `rgb(${this.state.color.join(',')})`
         };
 
         return (

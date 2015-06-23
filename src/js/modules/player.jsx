@@ -16,7 +16,7 @@ module.exports = React.createClass({
     },
     setStream: function (plugin, url) {
         $.ajax({
-            url: '/api/plugins/' + plugin + '/stream?url=' + url,
+            url: `/api/plugins/${plugin}/stream?url=${url}`,
             dataType: 'json',
             success: function (data) {
                 this.setState({
