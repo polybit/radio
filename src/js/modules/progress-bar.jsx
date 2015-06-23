@@ -3,20 +3,23 @@ var React = require('react'),
 
 
 module.exports = React.createClass({
-    getInitialState: function () {
+    getInitialState() {
         return {};
     },
-    getDefaultProps: function () {
+
+    getDefaultProps() {
         return {
             duration: 1,
             color: [0, 0, 0]
         };
     },
-    postPercentage: function (percentage) {
+
+    postPercentage(percentage) {
         this.setDisplayPercentage(percentage);
         $.post('/api/player/position', {position: Math.floor((this.state.localPercentage / 100) * this.props.duration * 1000)});
     },
-    setDisplayPercentage: function (percentage) {
+
+    setDisplayPercentage(percentage) {
         if (percentage > 100) {
             percentage = 100;
         } else if (percentage < 0) {
@@ -24,12 +27,14 @@ module.exports = React.createClass({
         }
         this.setState({localPercentage: percentage});
     },
-    componentWillReceiveProps: function () {
+
+    componentWillReceiveProps() {
         if (!this.state.dragging) {
             this.setState({localPercentage: null});
         }
     },
-    componentDidMount: function () {
+
+    componentDidMount() {
         var progressTarget = React.findDOMNode(this.refs.progress),
             width = $(progressTarget).width(),
             posX = $(progressTarget).offset().left;
@@ -47,7 +52,8 @@ module.exports = React.createClass({
             });
         });
     },
-    render: function () {
+
+    render() {
         var percentage;
         if (this.state.localPercentage) {
             percentage = this.state.localPercentage;

@@ -4,10 +4,11 @@ var StreamItem = require('./stream-item.jsx'),
 
 
 module.exports = React.createClass({
-    getInitialState: function () {
+    getInitialState() {
         return {queue: []};
     },
-    load: function () {
+
+    load() {
         $.ajax({
             url: '/api/player/queue',
             dataType: 'json',
@@ -18,14 +19,17 @@ module.exports = React.createClass({
             }
         });
     },
-    componentDidMount: function () {
+
+    componentDidMount() {
         this.load();
         setInterval(this.load, this.props.pollInterval);
     },
-    handleUrlSubmit: function () {
+
+    handleUrlSubmit() {
         this.load();
     },
-    render: function () {
+
+    render() {
         if (this.state.queue.length > 0) {
             var streamItems = this.state.queue.map(function (track) {
                 return <StreamItem key={track.id} track={track} />;

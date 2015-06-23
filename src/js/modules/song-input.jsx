@@ -3,13 +3,14 @@ var React = require('react'),
 
 
 module.exports = React.createClass({
-    getInitialState: function () {
+    getInitialState() {
         return {
             disabled: false,
             placeholder: 'Enter an audio url'
         };
     },
-    handleSubmit: function (e) {
+
+    handleSubmit(e) {
         e.preventDefault();
         const input = React.findDOMNode(this.refs.url);
         this.setState({
@@ -21,7 +22,8 @@ module.exports = React.createClass({
         });
         input.value = '';
     },
-    render: function () {
+
+    render() {
         return (
             <form className="songForm" onSubmit={this.handleSubmit}>
                 <div className="form-group">

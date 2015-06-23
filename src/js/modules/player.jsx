@@ -6,15 +6,17 @@ var StreamItem = require('./stream-item.jsx'),
 
 
 module.exports = React.createClass({
-    getInitialState: function () {
+    getInitialState() {
         return {
             track: null
         };
     },
-    updateLocalTime: function () {
+
+    updateLocalTime() {
         this.setState({currentLocalTime: this.state.currentLocalTime + 1});
     },
-    setStream: function (plugin, url) {
+
+    setStream(plugin, url) {
         $.ajax({
             url: `/api/plugins/${plugin}/stream?url=${url}`,
             dataType: 'json',
@@ -25,7 +27,8 @@ module.exports = React.createClass({
             }
         });
     },
-    load: function () {
+
+    load() {
         $.ajax({
             url: '/api/player',
             dataType: 'json',
@@ -62,15 +65,18 @@ module.exports = React.createClass({
             this.setState({color: colorThief.getColor(artNode)});
         }
     },
-    componentDidMount: function () {
+
+    componentDidMount() {
         this.load();
         setInterval(this.load, this.props.pollInterval);
         setInterval(this.updateLocalTime, 1000);
     },
-    handleUrlSubmit: function () {
+
+    handleUrlSubmit() {
         this.load();
     },
-    render: function () {
+
+    render() {
         if (this.state.track) {
             return (
                 <StreamItem track={this.state.track} ref="playerWrapper">

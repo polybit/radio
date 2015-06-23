@@ -4,12 +4,13 @@ var ColorThief = require('../lib/color-thief'),
 
 
 module.exports = React.createClass({
-    getInitialState: function () {
+    getInitialState() {
         return {
             color: [0, 0, 0]
         };
     },
-    componentDidMount: function () {
+
+    componentDidMount() {
         const art = React.findDOMNode(this.refs.art),
               colorThief = new ColorThief();
 
@@ -18,7 +19,8 @@ module.exports = React.createClass({
             this.setState({color: color});
         });
     },
-    render: function () {
+
+    render() {
         const itemStyle = {
             borderLeftColor: `rgb(${this.state.color.join(',')})`
         };
