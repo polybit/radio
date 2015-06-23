@@ -1,6 +1,6 @@
-var ColorThief = require('../lib/color-thief');
-var React = require('react');
-var $ = require('jquery');
+var ColorThief = require('../lib/color-thief'),
+    React = require('react'),
+    $ = require('jquery');
 
 
 module.exports = React.createClass({
@@ -12,14 +12,14 @@ module.exports = React.createClass({
     componentDidMount: function () {
         var art = React.findDOMNode(this.refs.art);
         $(art).on('load', (function () {
-            var colorThief = new ColorThief();
-            var color = colorThief.getColor(art);
+            var colorThief = new ColorThief(),
+                color = colorThief.getColor(art);
             this.setState({color: color});
         }).bind(this));
     },
     render: function () {
         var itemStyle = {
-            borderLeftColor: `rgb(${this.state.color.join(',')})`,
+            borderLeftColor: `rgb(${this.state.color.join(',')})`
         };
         return (
             <li className="stream-item list-group-item" style={itemStyle}>

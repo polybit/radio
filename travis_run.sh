@@ -3,8 +3,6 @@ set -e
 if [ "$1" == "frontend" ]
 then
     echo "Running frontend tests..."
-    npm install -g jsxhint
-    jsxhint --harmony src/js/modules/**/*.js* src/js/*.js*
     ./install_and_run.sh
     npm test
 elif [ "$1" == "jscs" ]

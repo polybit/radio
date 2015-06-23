@@ -1,5 +1,5 @@
 {
     "esprima": "esprima-fb",
     "fileExtensions": [".js", ".jsx"],
-    "preset": "crockford",
+    "preset": "crockford"
 }

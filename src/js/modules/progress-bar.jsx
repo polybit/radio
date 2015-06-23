@@ -1,5 +1,5 @@
-var React = require('react');
-var $ = require('jquery');
+var React = require('react'),
+    $ = require('jquery');
 
 
 module.exports = React.createClass({
@@ -9,7 +9,7 @@ module.exports = React.createClass({
     getDefaultProps: function () {
         return {
             duration: 1,
-            color: [0, 0, 0],
+            color: [0, 0, 0]
         };
     },
     postPercentage: function (percentage) {
@@ -30,9 +30,9 @@ module.exports = React.createClass({
         }
     },
     componentDidMount: function () {
-        var progressTarget = React.findDOMNode(this.refs.progress);
-        var width = $(progressTarget).width();
-        var posX = $(progressTarget).offset().left;
+        var progressTarget = React.findDOMNode(this.refs.progress),
+            width = $(progressTarget).width(),
+            posX = $(progressTarget).offset().left;
 
         $(progressTarget).on('mousedown', function () {
             this.setState({dragging: true});
@@ -48,14 +48,15 @@ module.exports = React.createClass({
         }.bind(this));
     },
     render: function () {
-        var percentage;
+        var percentage,
+            style;
         if (this.state.localPercentage) {
             percentage = this.state.localPercentage;
         } else {
             percentage = this.props.currentTime / this.props.duration * 100;
         }
 
-        var style = {
+        style = {
             width: `${percentage}%`,
             backgroundColor: `rgb(${this.state.color.join(',')})`
         };

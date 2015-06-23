@@ -1,8 +1,8 @@
-var React = require('react');
-var $ = require('jquery');
+var React = require('react'),
+    $ = require('jquery');
 
 
-var SongInput = React.createClass({
+module.exports = React.createClass({
     getInitialState: function () {
         return {
             disabled: false,
@@ -37,5 +37,3 @@ var SongInput = React.createClass({
         );
     }
 });
-
-module.exports = SongInput;

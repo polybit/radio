@@ -1,14 +1,14 @@
-var StreamItem = require('./stream-item.jsx');
-var ProgressBar = require('./progress-bar.jsx');
-var React = require('react');
-var $ = require('jquery');
-var ColorThief = require('../lib/color-thief');
+var StreamItem = require('./stream-item.jsx'),
+    ProgressBar = require('./progress-bar.jsx'),
+    React = require('react'),
+    $ = require('jquery'),
+    ColorThief = require('../lib/color-thief');
 
 
 module.exports = React.createClass({
     getInitialState: function () {
         return {
-            track: null,
+            track: null
         };
     },
     updateLocalTime: function () {
@@ -20,7 +20,7 @@ module.exports = React.createClass({
             dataType: 'json',
             success: function (data) {
                 this.setState({
-                    stream: data.stream,
+                    stream: data.stream
                 });
             }.bind(this)
         });
@@ -53,8 +53,8 @@ module.exports = React.createClass({
 
                     // TODO: sort out all the colour stuff and duplication...
                     $('#player img').on('load', function (e) {
-                        var colorThief = new ColorThief();
-                        var color = colorThief.getColor(e.target);
+                        var colorThief = new ColorThief(),
+                            color = colorThief.getColor(e.target);
                         this.setState({color: color});
                     }.bind(this));
                 }

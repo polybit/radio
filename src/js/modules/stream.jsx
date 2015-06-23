@@ -1,6 +1,6 @@
-var StreamItem = require('./stream-item.jsx');
-var React = require('react');
-var $ = require('jquery');
+var StreamItem = require('./stream-item.jsx'),
+    React = require('react'),
+    $ = require('jquery');
 
 
 module.exports = React.createClass({
@@ -13,7 +13,7 @@ module.exports = React.createClass({
             dataType: 'json',
             success: function (data) {
                 this.setState({
-                    queue: data.queue,
+                    queue: data.queue
                 });
             }.bind(this)
         });
